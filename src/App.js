@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       我是首页
       <Button>按钮</Button>
+      <button>点击</button>
     </div>
   );
 }
