@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox, message } from "antd";
 import LoginApi from "../../api/login";
 import style from "../Login/index.module.less";
@@ -11,7 +11,7 @@ class Login extends Component {
     };
   }
   login = async () => {
-    let { getFieldsValue, validateFields } = this.props.form;
+    let { validateFields } = this.props.form;
     // 校验输入的值
     validateFields((data, err) => {
       if (err) {
@@ -20,7 +20,7 @@ class Login extends Component {
       } else {
         // 用户名和密码正确
         LoginApi.login(data).then(res => {
-          if (res.code == 404) {
+          if (res.code === 404) {
             message.error("用户名或密码错误，请重试！");
           } else {
             message.success("输入正确，正在跳转", 1, () => {
@@ -82,10 +82,10 @@ class Login extends Component {
               登录
             </Button><br />
             <Checkbox>记住账号</Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a className="login-form-forgot" href="">
+            <span className={style.logininfo}>
               忘记密码
-            </a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="">现在注册</a>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span className={style.logininfo}>现在注册</span>
           </Form.Item>
         </div>
       </div>
