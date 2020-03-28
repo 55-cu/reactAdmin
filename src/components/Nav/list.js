@@ -14,21 +14,21 @@ export default {
         {
           key:'2-1',
           title:'用户列表',
-          path:'/admin/user/list',
+          path:'/admin/user/userlist',
           icon:'list'
         },
-        {
-          key:'2-2',
-          title:'添加用户',
-          path:'/admin/user/add',
-          icon:'add'
-        },
-        {
-          key:'2-3',
-          title:'用户查询',
-          path:'/admin/user/query',
-          icon:'search'
-        }
+        // {
+        //   key:'2-2',
+        //   title:'添加用户',
+        //   path:'/admin/user/add',
+        //   icon:'add'
+        // },
+        // {
+        //   key:'2-3',
+        //   title:'用户查询',
+        //   path:'/admin/user/query',
+        //   icon:'search'
+        // }
       ]
     },
     {
@@ -70,7 +70,7 @@ export default {
         {
           key:'4-3',
           title:'钢琴图',
-          path:'/admin/echarts/pinao',
+          path:'/admin/echarts/piano',
           icon:'heat-map'
         }
       ]
