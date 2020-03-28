@@ -3,7 +3,7 @@ import {Icon,Button,Divider,Popconfirm,Modal,message} from 'antd'
 import style from './hot.module.less'
 import hotApi from '../../../api/hot.js'
 import { Table,Pagination,Spin} from 'antd';
-class index extends Component {
+class Hot extends Component {
   state = {
     visible:false,
     confirmLoading:false,
@@ -104,6 +104,10 @@ class index extends Component {
     if(err !== 0){ return }
     this.setState({data:list,count:allCount,loading:false})
   }
+  //新建热门话题
+  addTopic=()=>{
+    this.props.history.push('/admin/hot/add')
+  }
   render() {
     let {columns,data,page,pageSize,count,loading,visible,confirmLoading} = this.state
     console.log(count,typeof count)
@@ -113,8 +117,9 @@ class index extends Component {
           <Icon type="fire"/><span>热门话题</span>
         </div>
         <div className={style.wrapper}>
+          <Button type="primary" onClick={this.addTopic}>新建</Button>
           <Spin tip="Loading..." spinning={loading}>
-            <Table bordered columns={columns} dataSource={data} rowKey='_id' pagination={false} />
+            <Table bordered columns={columns} dataSource={data} rowKey='_id' pagination={false} className={style.table}/>
           </Spin>
         </div>
         <Pagination showQuickJumper className={style.page} current={page}  total={count} pageSize={pageSize}
@@ -139,4 +144,4 @@ class index extends Component {
   }
 }
 
-export default index;
+export default Hot;
