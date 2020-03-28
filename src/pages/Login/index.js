@@ -42,7 +42,7 @@ class Login extends Component {
               rules: [
                 { required: true, message: "用户名必须填写!" },
                 { max: 9, message: "用户名最大长度9位" },
-                { min: 3, message: "用户名最小长度3位" }
+                { min: 3, message: "用户名最小长度4位" }
               ]
             })(
               <Input
@@ -59,7 +59,7 @@ class Login extends Component {
               rules: [
                 { required: true, message: "密码必须填写!" },
                 { max: 9, message: "密码最大长度9位" },
-                { min: 3, message: "密码最小长度3位" }
+                { min: 3, message: "密码最小长度4位" }
               ]
             })(
               <Input
