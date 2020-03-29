@@ -102,7 +102,7 @@ module.exports = function(proxy, allowedHost) {
     public: allowedHost,
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy:{
-      '/chick':{
+      "/chick":{
         target:'http://39.99.195.178:3000/',
         changeOrigin:true,
         pathRewrite:{
