@@ -1,8 +1,8 @@
 import axios from '../utils/axios'
 class UserManage {
-    userDel(_id){
+    userDel(payload){
         let url= '/chick/admin/user/del'
-        return axios.post(url,_id)
+        return axios.post(url,payload)
     }
     userQuery(payload){
         let url = '/chick/admin/user/infopage'
@@ -12,6 +12,10 @@ class UserManage {
     //     let url= '/chick/admin/user/reg'
     //     return axios.post(url,payload)
     // }
+    userEdit(payload){
+        let url='/chick/admin/user/update'
+        return axios.post(url,payload)
+    }
 }
 
 export default new UserManage()

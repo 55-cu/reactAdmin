@@ -7,6 +7,7 @@ import './reset.css'
 import loadalbe from "./utils/loadable"
 //引入用户组件 - cy
 import UserList from './pages/UserManage/UserList'
+import UserEdit from './pages/UserManage/UserEdit'
 //引入数据统计表格 - cy
 import EchartsPie from './pages/Echarts/Pie'
 import EchartsLine from './pages/Echarts/Line'
@@ -31,6 +32,7 @@ class App extends Component{
             return(
               <Admin>
                 <Route path='/admin/user/userlist' component={UserList}></Route>
+                <Route path='/admin/user/useredit' component={UserEdit}></Route>
                 <Route path='/admin/echarts/pie' component={EchartsPie}></Route>
                 <Route path='/admin/echarts/line' component={EchartsLine}></Route>
                 <Route path='/admin/echarts/piano' component={EchartsPiano}></Route>
