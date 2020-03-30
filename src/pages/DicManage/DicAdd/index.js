@@ -8,7 +8,7 @@ class DicAdd extends Component {
  state={
     "name":"",
     "desc":'',
-    "path":null,
+    "img":null,
     "topic":"",
     "creator":'fan'
  }
@@ -38,7 +38,7 @@ class DicAdd extends Component {
     console.log('哈哈哈',data.get('hehe'))
     let {code,msg,path} = await dicManage.img(data)
     if(code){ return message.error(msg)}
-    this.setState({path:'http://39.99.195.178:3000'+path})
+    this.setState({img:'http://39.99.195.178:3000'+path})
     console.log(this.state.path)
   }
 
