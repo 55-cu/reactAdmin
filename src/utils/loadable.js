@@ -1,9 +1,9 @@
 import React from 'react'
 import LoadAble from 'react-loadable'
-
+import { Empty } from 'antd';
 function LogingComponent (){
     return(
-      <div>这里是过度组件</div>
+      <Empty />
     )
   }
   

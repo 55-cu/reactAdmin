@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {Icon,Button,Divider,Popconfirm,Modal,message} from 'antd'
+import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,InputNumber,Table,Pagination,Spin} from 'antd'
+
 import style from './hot.module.less'
 import hotApi from '../../../api/hot.js'
-import { Table,Pagination,Spin} from 'antd';
+const { TextArea } = Input;
+
 class Hot extends Component {
   state = {
     visible:false,
@@ -51,7 +53,11 @@ class Hot extends Component {
     page:1,
     pageSize:9,
     count:0,
-    loading:true
+    loading:true,
+    username:'',
+    name:'',
+    note:null,
+    id:''
   };
   //确认删除
   delConfirm(id){
@@ -59,20 +65,52 @@ class Hot extends Component {
     .then((data)=>{
       if(data.err === 0){
         message.warning('删除成功')
+        this.getListData()
       }
     })
   }
   //确认编辑
-  updateConfirm(id){
-    hotApi.updateTopic(id)
-    .then((data)=>{
-      if(data.err === 0){
-        this.setState({
-          visible: true,
-        });
-      }
-    })
+  updateConfirm=async (id)=>{
+    console.log(id)
+    //根据id获取当前话题
+    let result = await this.getTopicById(id)
+    if(!result.list){
+      return 
+    }
+    let {name,desc,hot} = result.list[0]
+    //将数据写入表单，让模态框显示
+    this.props.form.setFieldsValue({
+      username:name,
+      name:desc,
+      note: hot,
+    });
+    this.setState({visible:true,id})
   }
+  //确认修改
+  handleSubmit = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        let {username,name,note} = values
+        hotApi.updateTopic({name:username,desc:name,hot:note,_id:this.state.id})
+        .then((data)=>{
+          if(data.err === 0){
+            message.success('编辑成功')
+            this.setState({visible:false,loading:true})
+            this.getListData()
+          }
+        })
+      }else{
+        message.warning('请完善表单信息');
+      }
+    });
+  };
+
+  //根据ID获取当前话题
+  getTopicById=async (_id)=>{
+    let result = await hotApi.getTopic({_id})
+    return result
+  }
+  
   //编辑模态框确认时间
   handleOk = () => {
     this.setState({
@@ -88,7 +126,6 @@ class Hot extends Component {
   };
   //编辑模态框关闭事件
   handleCancel = () => {
-    console.log('Clicked cancel button');
     this.setState({
       visible: false,
     });
@@ -110,7 +147,31 @@ class Hot extends Component {
   }
   render() {
     let {columns,data,page,pageSize,count,loading,visible,confirmLoading} = this.state
-    console.log(count,typeof count)
+    //表单配置
+    const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
+      },
+    };
     return (
       <div className={style.hot}>
         <div className={style.header}>
@@ -133,15 +194,51 @@ class Hot extends Component {
           <Modal
           title="编辑"
           visible={visible}
-          onOk={this.handleOk}
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
+          footer={null}
         >
-          <p>编辑</p>
+            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form.Item label="话题名称">
+              {getFieldDecorator('username',{
+                rules: [
+                  {
+                    required: true,
+                    message: '热门话题不能为空',
+                  },
+                ],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="内容">
+              {getFieldDecorator('name',{
+                rules: [
+                  {
+                    required: true,
+                    message: '内容不能为空',
+                  },
+                ],
+              })(<TextArea placeholder="话题描述" />)}
+            </Form.Item>
+            <Form.Item label="热度" hasFeedback>
+              {getFieldDecorator('note',{
+                rules: [
+                  {
+                    required: true,
+                    message: '热度不能为空',
+                  },
+                ],
+              })(<InputNumber style={{ width: '100%' }} />)}
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout} >
+              <Button type="primary" htmlType="submit">
+                确认
+              </Button>
+            </Form.Item>
+          </Form>
         </Modal>
       </div>
     );
   }
 }
 
-export default Hot;
+export default Form.create()(Hot);

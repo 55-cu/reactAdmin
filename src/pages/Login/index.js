@@ -3,27 +3,25 @@ import { Form, Icon, Input, Button, Checkbox, message } from "antd";
 import LoginApi from "../../api/login";
 import style from "../Login/index.module.less";
 class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: "",
-      pass: ""
-    };
-  }
   login = async () => {
     let { validateFields } = this.props.form;
     // 校验输入的值
-    validateFields((data, err) => {
+    validateFields((err,data) => {
       if (err) {
         // 输入错误
         message.error("输入有误，请重试！");
       } else {
         // 用户名和密码正确
         LoginApi.login(data).then(res => {
-          if (res.code === 404) {
+          console.log('res',res)
+          if (res.err === -1) {
             message.error("用户名或密码错误，请重试！");
           } else {
-            message.success("输入正确，正在跳转", 1, () => {
+              // 登录成功获取token并且保存到localstorage里 
+              localStorage.setItem('token',res.userInfo.token)
+              let {user,leavel} = res.userInfo
+              localStorage.setItem('user',JSON.stringify({user,leavel}))
+              message.success("输入正确，正在跳转", 1, () => {
               this.props.history.replace("/admin");
             });
           }

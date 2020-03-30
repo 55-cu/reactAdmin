@@ -5,7 +5,8 @@ import {
   Button,
   InputNumber,
   message
-} from 'antd';import style from './add.module.less'
+} from 'antd';
+import style from './add.module.less'
 
 import hotApi from '../../../api/hot.js'
 
