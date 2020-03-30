@@ -11,6 +11,7 @@ import UserList from './pages/UserManage/UserList'
 import EchartsPie from './pages/Echarts/Pie'
 import EchartsLine from './pages/Echarts/Line'
 import EchartsPiano from './pages/Echarts/Piano'
+import Discuss from './pages/Discuss'
 const Admin = loadalbe(()=>import('./pages/Admin'))
 //引入热门话题 -fan
 const HotList = loadalbe(()=>import('./pages/Hot/HotList'))
@@ -47,6 +48,7 @@ class App extends Component{
                 <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
                 <Route path="/admin/dicmanage/dicupdate" component={DicUpdate}></Route>
                 <Route path="/admin/echarts" component={Empty}></Route>
+                <Route path='/admin/discuss' component={Discuss}></Route>
               </Admin>
             )
           }}></Route>

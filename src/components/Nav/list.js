@@ -127,6 +127,11 @@ export default {
       icon:'echarts',
       path: '/admin/echarts'
     },
-    
+    {
+      key:'6',
+      title:'评论管理',
+      icon:'smile',
+      path:'/admin/discuss'
+    }
   ]
 } 
