@@ -9,7 +9,8 @@ class DicAdd extends Component {
     "name":"",
     "desc":'',
     "path":null,
-    "topic":""
+    "topic":"",
+    "creator":'fan'
  }
  
  //增加词典数据
@@ -20,7 +21,8 @@ class DicAdd extends Component {
     }
     this.props.history.replace('/admin/dicmanage/dicinfo')
  }
- upload= ()=>{
+ upload=async ()=>{
+    // 1. 获取图片里的内容
     let  file = this.refs.img.files[0]
     if(!file){ return message.error('请先选择一张图片')}
     // 图片的验证
@@ -29,12 +31,15 @@ class DicAdd extends Component {
     let types = ['jpg',"jpeg",'gif','png']
     if(size>1000000){ return message.warning('图片超过1m')}
     if(types.indexOf(type.split('/')[1])===-1){ return message.warning('只允许jpg.jpeg,gif,png四种类型')}
-    // 将图片变成base64  
-     let reader = new FileReader()
-     reader.onload=()=>{
-       this.setState({path:reader.result})
-     }
-     reader.readAsDataURL(file)
+    // 调用接口
+    // 将图片转化为formdata 
+    let data = new FormData()
+    data.append('hehe',file)
+    console.log('哈哈哈',data.get('hehe'))
+    let {code,msg,path} = await dicManage.img(data)
+    if(code){ return message.error(msg)}
+    this.setState({path:'http://39.99.195.178:3000'+path})
+    console.log(this.state.path)
   }
 
   render(){
