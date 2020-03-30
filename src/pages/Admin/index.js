@@ -96,5 +96,5 @@ class Admin extends Component {
     );
   }
 }
-}
+
 export default connect(state => state)(withRouter(Admin));
