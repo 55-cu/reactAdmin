@@ -74,6 +74,26 @@ export default {
           icon:'heat-map'
         }
       ]
+    },
+    {
+      key:'5 ',
+      title:"词典管理",
+      icon:'dicmanage',
+      path: '/admin/dicmanage',
+      children:[
+        {
+          key:'5-1',
+          title:'词典信息',
+          path:'/admin/dicmanage/dicinfo',
+          icon:'list'
+        },
+        {
+          key:'5-2',
+          title:'词典添加',
+          path:'/admin/dicmanage/dicadd',
+          icon:'add'
+        }
+      ]
     }
   ],
   admin:[
@@ -100,6 +120,12 @@ export default {
       title:"数据统计",
       icon:'echarts',
       path: '/admin/echarts'
+    },
+    {
+      key:'5',
+      title:"词典管理",
+      icon:'dicmanage',
+      path: '/admin/dicmanage'
     },
   ]
 } 
