@@ -17,18 +17,18 @@ export default {
           path:'/admin/user/userlist',
           icon:'list'
         },
-        // {
-        //   key:'2-2',
-        //   title:'添加用户',
-        //   path:'/admin/user/add',
-        //   icon:'add'
-        // },
-        // {
-        //   key:'2-3',
-        //   title:'用户查询',
-        //   path:'/admin/user/query',
-        //   icon:'search'
-        // }
+        {
+          key:'2-2',
+          title:'添加用户',
+          path:'/admin/user/add',
+          icon:'add'
+        },
+        {
+          key:'2-3',
+          title:'用户查询',
+          path:'/admin/user/query',
+          icon:'search'
+        }
       ]
     },
     {
@@ -87,7 +87,7 @@ export default {
       key:'2',
       title:"用户",
       icon:'user',
-      path: '/admin/user'
+      path: '/admin/user/userlist'
     },
     {
       key:'3',

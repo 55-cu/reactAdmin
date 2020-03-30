@@ -15,7 +15,10 @@ class HotApi{
   }
   addTopic(payload){
     let url = '/chick/admin/hot/add'
-    console.log(payload)
+    return axios.post(url,payload)
+  }
+  getTopic(payload){
+    let url = '/chick/admin/hot/info'
     return axios.post(url,payload)
   }
 }

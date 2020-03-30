@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Menu,Icon} from 'antd';
+import { Menu,Icon,message} from 'antd';
 import list from './list'
 import {withRouter} from 'react-router-dom'
 const { SubMenu } = Menu;
 
 class Nav extends Component {
+  state={
+    leavel:'admin'
+  }
   //点击事件
   handleClick = e => {
     console.log(this,e)
@@ -12,6 +15,19 @@ class Nav extends Component {
     this.props.history.replace(path)
   
   };
+  //获取权限
+  componentDidMount(){
+    //通过localstorage获取权限
+    if(localStorage.getItem('user')){
+      let leavel = JSON.parse(localStorage.getItem('user')).leavel
+      if(leavel === 'root'){
+        message.success('当前用户为超级管理员')
+      }else{
+        message.success('当前用户为普通用户')
+      }
+      this.setState({leavel})
+    }
+  }
   getIcon(icon){
     switch (icon) {
       case 'user':
@@ -67,6 +83,7 @@ class Nav extends Component {
     })
   }
   render() {
+    let {leavel} = this.state
     return (
       <div style={{ width: 200 }}>
         <Menu
@@ -76,7 +93,7 @@ class Nav extends Component {
         mode="inline"
         theme="dark"
       >
-        {this.renderItem(list.root)}
+        {this.renderItem(list[leavel])}
       </Menu>
       </div>
       
