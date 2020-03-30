@@ -17,7 +17,7 @@ class DicUpdate extends Component {
    let {id} =  this.props.match.params
     let {err,msg} = await dicManage.dicUpdate(id,this.state)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.props.history.replace('/admin/dicmanage/dicinfo')
  }

@@ -16,7 +16,7 @@ class DicAdd extends Component {
  dicAdd= async ()=>{
     let {err,msg} = await dicManage.dicAdd(this.state)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.props.history.replace('/admin/dicmanage/dicinfo')
  }
