@@ -14,7 +14,12 @@ class DicList extends Component {
      {title:'_id', dataIndex:'_id',key:'_id' },
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
-     {title:'图片', dataIndex:'img',key:'img' },
+     {title:'图片', dataIndex:'img',key:'img',render:(img)=>{
+       console.log(img)
+       return (
+         <img src={img} alt="缩略图" width="120"/>
+       )
+     } },
      {title:'描述', dataIndex:'desc',key:'desc' },
      {title:'操作', dataIndex:'action',key:'action',render:(recode)=>{
          return(
@@ -49,20 +54,20 @@ class DicList extends Component {
  //获取词典数据
  getDicdata= async ()=>{
     let {page,pageSize}  = this.state
-    let {err,msg,list,allcount} = await dicManage.findByPage(page,pageSize)
+    let {err,msg,list,allCount} = await dicManage.findByPage(page,pageSize)
     if(err===-1){
         return message.error(msg)
     }
-    this.setState({list,count:allcount})
+    this.setState({list,count:allCount})
  }
  //关键字查询
  getDicDataByKw = async(kw)=>{
     let {page,pageSize}  = this.state
-    let {err,msg,list,allcount} = await dicManage.findByPage(kw,page,pageSize)
+    let {err,msg,list,allCount} = await dicManage.findByPage(kw,page,pageSize)
     if(err===-1){
         return message.error(msg)
     }
-    this.setState({list,count:allcount})
+    this.setState({list,count:allCount})
  }
   render(){
     let {list,columns,count,pageSize,page,kw} = this.state
@@ -91,11 +96,11 @@ class DicList extends Component {
               dataSource={list} 
               rowKey='_id'>
             </Table>
-            <Pagination  current={page}total={count} showQuickJumper pageSize={pageSize}
+            <Pagination  current={page} total={count} showQuickJumper pageSize={pageSize}
             onChange={(page)=>{
               //只要页码数发生改变就会触发          
               this.setState({page},()=>{
-                this.getDicData()
+                this.getDicdata()
               })   
             }}
             />
