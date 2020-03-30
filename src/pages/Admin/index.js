@@ -74,10 +74,10 @@ class Admin extends Component {
               <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
             </div>
             <div className={style.right}>
-              {administrator === 1 ? '超级管理员' : '普通管理员'}
+              
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
                 <a className="ant-dropdown-link" >
-                  Hover me <Icon type="down" />
+                {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
                 </a>
               </Dropdown>}
              
