@@ -25,7 +25,8 @@ class DicList extends Component {
                 <Button type='danger' size='small'>删除</Button>  
                 <Button type='primary' size='small'
                 onClick={()=>{
-                  this.props.history.replace('/admin/dicmanage/dicupdate'+recode._id)
+                  console.log(recode)
+                  this.props.history.replace('/admin/dicmanage/dicupdate')
                 }}
                 >修改</Button>  
                </Popconfirm>

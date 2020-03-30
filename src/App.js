@@ -40,14 +40,11 @@ class App extends Component{
                 <Route path='/admin/echarts/piano' component={EchartsPiano}></Route>
                 <Route path="/admin/hot/list" component={HotList}></Route>
                 <Route path="/admin/hot/add" component={AddHot}></Route>
-                <Route path="/admin/home" component={Home}></Route>
-<<<<<<< HEAD
+                <Route path="/admin/home" component={Home}></Route> 
                 <Route path="/admin/dicmanage/dicinfo" component={DicList}></Route>
                 <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
                 <Route path="/admin/dicmanage/dicupdate" component={DicUpdate}></Route>
-=======
                 <Route path="/admin/echarts" component={Empty}></Route>
->>>>>>> 86ef0df8db0d34c5c9acb71089afffeef61c0f68
               </Admin>
             )
           }}></Route>

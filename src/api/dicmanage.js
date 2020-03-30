@@ -24,8 +24,10 @@ dicUpdate(payload){
     let url = '/chick/admin/dict/update'
     return axios.post(url,{payload})
 }
-
-
+imgUpload(){
+  let url = '/chick/admin/upload/img'
+  return axios.post(url)
+}
 }
 
 export default  new Dicmanage()
