@@ -5,7 +5,6 @@ import Modal from '../tokenModal'
 import style from './admin.module.less'
 import { Layout, Breadcrumb, Button, Dropdown, Menu, Icon } from 'antd';
 import { connect } from 'react-redux'
-import Login from '../../api/login'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -15,9 +14,8 @@ class Admin extends Component {
     collapsed: false,
     user: '',
     show: false,
-    page:1,
-    pageSize:10,
-    administrator:''
+    administrator: '',
+   
   };
 
   onCollapse = collapsed => {
@@ -27,18 +25,19 @@ class Admin extends Component {
     this.props.history.push('/login')
     localStorage.removeItem('token')
   }
-  componentDidMount(){
+  changeUl=()=>{
+    this.setState({visiable:true })
+  }
+  componentDidMount() {
     //获取用户名
-    if(localStorage.getItem('user')){
+    if (localStorage.getItem('user')) {
       let result = JSON.parse(localStorage.getItem('user'))
-      this.setState({user:result.user})
-
-  // componentDidMount() {
-    
-  //   if (localStorage.getItem('user')) {
-  //     let user = localStorage.getItem('user')
-  //     this.setState({ user })
-  //   }
+      this.setState({ user: result.user })
+      console.log(result.leavel)
+      if (result.leavel === 'root') {
+        this.setState({ administrator: 1 })
+      }
+    }
     let token = localStorage.getItem('token')
     if (token) {
       this.setState({ show: true })
@@ -54,14 +53,14 @@ class Admin extends Component {
     const menu = (
       <Menu>
         <Menu.Item key='1'>
-          <Button>个人中心</Button>
+          <Button onClick={this.changeUl}>个人中心</Button>
         </Menu.Item>
         <Menu.Item key='2' >
           <Button onClick={this.toLogin}>退出登录</Button>
         </Menu.Item>
       </Menu>)
     let { tokenModal } = this.props
-    let {show,administrator } = this.state
+    let { show, administrator } = this.state
     return (
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal ? <Modal></Modal> : ''}
@@ -71,17 +70,21 @@ class Admin extends Component {
         </Sider>
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
-            <span>小鸡词典</span>
-            <span className={style.bg}></span>
-            {administrator === 1?'超级管理员':'普通管理员'}
-            {!show || <Dropdown overlay={menu}>
-              <a className="ant-dropdown-link" onClick={this.toLogin}>
-                Hover me <Icon type="down" />
-              </a>
-            </Dropdown>}
+            <div className={style.headerDiv}>
+              <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
+            </div>
+            <div className={style.right}>
+              {administrator === 1 ? '超级管理员' : '普通管理员'}
+              {!show || <Dropdown overlay={menu} className={style.Dropdown}>
+                <a className="ant-dropdown-link" >
+                  Hover me <Icon type="down" />
+                </a>
+              </Dropdown>}
+             
+            </div>
             {/* <Button type="link" onClick={this.toLogin} className={style.login}>登录</Button> */}
           </Header>
-          <Content style={{ margin: '0 16px' }}>
+          <Content >
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
