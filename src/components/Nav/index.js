@@ -10,7 +10,7 @@ class Nav extends Component {
   }
   //点击事件
   handleClick = e => {
-    console.log(this,e)
+    // console.log(this,e)
     let {path} = e.item.props 
     this.props.history.replace(path)
   
@@ -18,7 +18,7 @@ class Nav extends Component {
   //获取权限
   componentDidMount(){
     //通过localstorage获取权限
-    if(localStorage.getItem('user')){
+    if(localStorage.getItem('user') && localStorage.getItem('token')){
       let leavel = JSON.parse(localStorage.getItem('user')).leavel
       if(leavel === 'root'){
         message.success('当前用户为超级管理员')

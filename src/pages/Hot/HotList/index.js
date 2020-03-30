@@ -4,7 +4,7 @@ import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,InputNumber,Tabl
 import style from './hot.module.less'
 import hotApi from '../../../api/hot.js'
 const { TextArea } = Input;
-
+const { Search } = Input;
 class Hot extends Component {
   state = {
     visible:false,
@@ -71,7 +71,7 @@ class Hot extends Component {
   }
   //确认编辑
   updateConfirm=async (id)=>{
-    console.log(id)
+    // console.log(id)
     //根据id获取当前话题
     let result = await this.getTopicById(id)
     if(!result.list){
@@ -145,6 +145,15 @@ class Hot extends Component {
   addTopic=()=>{
     this.props.history.push('/admin/hot/add')
   }
+  //关键字搜索
+  kwSearch=async (e)=>{
+    this.setState({loading:true})
+    let {page,pageSize}  = this.state
+    let {err,list,allCount} = await hotApi.getKwInfo({kw:e,page,pageSize})
+    if(err !== 0){ return }
+    this.setState({data:list,count:allCount,loading:false})
+    message.success('关键字搜索完成')
+  }
   render() {
     let {columns,data,page,pageSize,count,loading,visible,confirmLoading} = this.state
     //表单配置
@@ -179,6 +188,9 @@ class Hot extends Component {
         </div>
         <div className={style.wrapper}>
           <Button type="primary" onClick={this.addTopic}>新建</Button>
+          <div>
+            <Search placeholder="关键字搜索" onSearch={this.kwSearch} enterButton style={{width:300,marginTop:20}}/>
+          </div>
           <Spin tip="Loading..." spinning={loading}>
             <Table bordered columns={columns} dataSource={data} rowKey='_id' pagination={false} className={style.table}/>
           </Spin>

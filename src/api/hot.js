@@ -21,6 +21,11 @@ class HotApi{
     let url = '/chick/admin/hot/info'
     return axios.post(url,payload)
   }
+  //关键字搜索
+  getKwInfo(payload){
+    let url = '/chick/admin/hot/kwinfo'
+    return axios.post(url,payload)
+  }
 }
 
 export default new HotApi()

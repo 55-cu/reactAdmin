@@ -24,6 +24,8 @@ axios.interceptors.response.use(function (response) {
     }else if(response.data.err !== -1){
       store.dispatch(action(true))
     }
+  }else if(response.data.err === 0){
+    store.dispatch(action(false))
   }
   return response.data;
 }, function (error) {
