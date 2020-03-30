@@ -34,6 +34,8 @@ class Nav extends Component {
         return 'home'
       case 'list':
         return 'container'
+      case 'dicmanage':
+        return 'read'
       default:
         return 'global'
     }
