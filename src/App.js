@@ -23,6 +23,12 @@ const Empty = loadalbe(()=>import('./pages/Empty'))
 
 //设置懒加载 - cy 
 const Login = loadalbe(()=>import('./pages/Login'))
+//引入词典管理 -xhp
+const DicList = loadalbe(()=>import('./pages/DicManage/DicList'))
+const DicAdd = loadalbe(()=>import('./pages/DicManage/DicAdd'))
+const DicUpdate = loadalbe(()=>import('./pages/DicManage/DicUpdate'))
+
+
 class App extends Component{
     render(){
       return(
@@ -39,6 +45,9 @@ class App extends Component{
                 <Route path="/admin/hot/list" component={HotList}></Route>
                 <Route path="/admin/hot/add" component={AddHot}></Route>
                 <Route path="/admin/home" component={Home}></Route>
+                <Route path="/admin/dicmanage/dicinfo" component={DicList}></Route>
+                <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
+                <Route path="/admin/dicmanage/dicupdate" component={DicUpdate}></Route>
                 <Route path="/admin/echarts" component={Empty}></Route>
               </Admin>
             )

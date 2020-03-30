@@ -19,7 +19,7 @@ class UserList extends Component{
     getUserData = async()=>{
         let {page,pageSize} =this.state
         let {list,msg,err,allCount} =await UserApi.userQuery({page,pageSize})
-        console.log(list)
+        // console.log(list)
         if(err !==0){ return message.error(msg)}
         let result=list.map((item,index)=>{
             return {

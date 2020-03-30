@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,InputNumber,Table,Pagination,Spin} from 'antd'
+import XLSX from "xlsx"
 
 import style from './hot.module.less'
 import hotApi from '../../../api/hot.js'
 const { TextArea } = Input;
-
+const { Search } = Input;
 class Hot extends Component {
   state = {
     visible:false,
@@ -17,18 +18,18 @@ class Hot extends Component {
         key:"name"
       },
       {
+        title: '描述',
+        dataIndex: 'desc',
+        width: 180,
+        key:"desc"
+      },
+      {
         title: '热度',
         dataIndex: 'hot',
         width: 80,
         key:"hot",
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.hot - b.hot,
-      },
-      {
-        title: '描述',
-        dataIndex: 'desc',
-        width: 180,
-        key:"desc"
       },
       {
         title: '操作',
@@ -71,7 +72,7 @@ class Hot extends Component {
   }
   //确认编辑
   updateConfirm=async (id)=>{
-    console.log(id)
+    // console.log(id)
     //根据id获取当前话题
     let result = await this.getTopicById(id)
     if(!result.list){
@@ -145,6 +146,44 @@ class Hot extends Component {
   addTopic=()=>{
     this.props.history.push('/admin/hot/add')
   }
+  //关键字搜索
+  kwSearch=async (e)=>{
+    this.setState({loading:true})
+    let {page,pageSize}  = this.state
+    let {err,list,allCount} = await hotApi.getKwInfo({kw:e,page,pageSize})
+    if(err !== 0){ return }
+    this.setState({data:list,count:allCount,loading:false})
+    message.success('关键字搜索完成')
+  }
+  //导出excel文件
+  export=async ()=>{
+    let thead = this.state.columns.map((item,index)=>{
+      return item.title
+    })
+    thead.length = 3
+    thead.unshift('id')
+    //获取数据
+    let {err,list} = await hotApi.getData({page:1,pageSize:1000})
+    if(err===0){
+      let newArr = list.map((item,index)=>{
+        let arr = []
+        for(let key in item){
+          arr.push(item[key])
+        }
+        arr.length = 4
+        return arr
+      })
+      let result = [thead,...newArr]
+      // 将数组转化为标签页 
+      var ws = XLSX.utils.aoa_to_sheet(result);
+      // 创建工作薄
+      var wb = XLSX.utils.book_new() 
+      // 将标签页插入到工作薄里
+      XLSX.utils.book_append_sheet(wb,ws)
+      // 将工作薄导出为excel文件
+      XLSX.writeFile(wb,'商品.xlsx');
+    }
+  }
   render() {
     let {columns,data,page,pageSize,count,loading,visible,confirmLoading} = this.state
     //表单配置
@@ -178,7 +217,11 @@ class Hot extends Component {
           <Icon type="fire"/><span>热门话题</span>
         </div>
         <div className={style.wrapper}>
-          <Button type="primary" onClick={this.addTopic}>新建</Button>
+          <Button type="primary" onClick={this.addTopic} >新建</Button>
+          <Button type="primary" className={style.btn} onClick={this.export}>导出</Button>
+          <div>
+            <Search placeholder="关键字搜索" onSearch={this.kwSearch} enterButton style={{width:300,marginTop:20}}/>
+          </div>
           <Spin tip="Loading..." spinning={loading}>
             <Table bordered columns={columns} dataSource={data} rowKey='_id' pagination={false} className={style.table}/>
           </Spin>

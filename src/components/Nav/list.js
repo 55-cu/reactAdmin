@@ -8,7 +8,7 @@ export default {
     },
     {
       key:'2',
-      title:"用户",
+      title:"用户管理",
       icon:'user',
       children:[
         {
@@ -33,7 +33,7 @@ export default {
     },
     {
       key:'3',
-      title:"热门话题",
+      title:"话题管理",
       icon:'hot',
       children:[
         {
@@ -46,6 +46,25 @@ export default {
           key:'3-2',
           title:'新建热门',
           path:'/admin/hot/add',
+          icon:'add'
+        }
+      ]
+    },
+    {
+      key:'5 ',
+      title:"词典管理",
+      icon:'dicmanage',
+      children:[
+        {
+          key:'5-1',
+          title:'词典信息',
+          path:'/admin/dicmanage/dicinfo',
+          icon:'list'
+        },
+        {
+          key:'5-2',
+          title:'词典添加',
+          path:'/admin/dicmanage/dicadd',
           icon:'add'
         }
       ]
@@ -74,7 +93,8 @@ export default {
           icon:'heat-map'
         }
       ]
-    }
+    },
+    
   ],
   admin:[
     {
@@ -85,15 +105,21 @@ export default {
     },
     {
       key:'2',
-      title:"用户",
+      title:"用户管理",
       icon:'user',
       path: '/admin/user/userlist'
     },
     {
       key:'3',
-      title:"热门话题",
+      title:"话题管理",
       path:'/admin/hot/list',
       icon:'hot'
+    },
+    {
+      key:'5',
+      title:"词典管理",
+      icon:'dicmanage',
+      path: '/admin/dicmanage/dicinfo'
     },
     {
       key:'4',
@@ -101,5 +127,6 @@ export default {
       icon:'echarts',
       path: '/admin/echarts'
     },
+    
   ]
 } 
