@@ -43,7 +43,7 @@ class DicList extends Component {
  delDic= async (_id)=>{
     let {err,msg} = await dicManage.dicDel(_id)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.getDicdata()
  }
@@ -52,7 +52,7 @@ class DicList extends Component {
     let {page,pageSize}  = this.state
     let {err,msg,list,allcount} = await dicManage.findByPage(page,pageSize)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.setState({list,count:allcount})
  }
@@ -61,7 +61,7 @@ class DicList extends Component {
     let {page,pageSize}  = this.state
     let {err,msg,list,allcount} = await dicManage.findByPage(kw,page,pageSize)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.setState({list,count:allcount})
  }

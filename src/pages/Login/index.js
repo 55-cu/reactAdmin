@@ -19,10 +19,10 @@ class Login extends Component {
           } else {
               // 登录成功获取token并且保存到localstorage里 
               localStorage.setItem('token',res.userInfo.token)
-              let {user,leavel} = res.userInfo
-              localStorage.setItem('user',JSON.stringify({user,leavel}))
+              let {user,leavel,_id} = res.userInfo
+              localStorage.setItem('user',JSON.stringify({user,leavel,_id}))
               message.success("输入正确，正在跳转", 1, () => {
-              this.props.history.replace("/admin");
+              this.props.history.replace("/admin/home");
             });
           }
         });

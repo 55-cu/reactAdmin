@@ -26,6 +26,8 @@ const Login = loadalbe(()=>import('./pages/Login'))
 const DicList = loadalbe(()=>import('./pages/DicManage/DicList'))
 const DicAdd = loadalbe(()=>import('./pages/DicManage/DicAdd'))
 const DicUpdate = loadalbe(()=>import('./pages/DicManage/DicUpdate'))
+
+
 class App extends Component{
     render(){
       return(
@@ -40,7 +42,11 @@ class App extends Component{
                 <Route path='/admin/echarts/piano' component={EchartsPiano}></Route>
                 <Route path="/admin/hot/list" component={HotList}></Route>
                 <Route path="/admin/hot/add" component={AddHot}></Route>
+<<<<<<< HEAD
                 <Route path="/admin/home" component={Home}></Route> 
+=======
+                <Route path="/admin/home" component={Home}></Route>
+>>>>>>> b85f15664603c2976718cc7e548fcfd331b4e9ea
                 <Route path="/admin/dicmanage/dicinfo" component={DicList}></Route>
                 <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
                 <Route path="/admin/dicmanage/dicupdate" component={DicUpdate}></Route>

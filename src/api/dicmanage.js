@@ -14,7 +14,7 @@ class Dicmanage {
   }
   dicAdd(payload){
       let url = '/chick/admin/dict/add'
-      return axios.post(url,{payload})
+      return axios.post(url,payload)
   }
   dicDel(_id){
     let url = '/chick/admin/dict/del'
@@ -24,10 +24,19 @@ dicUpdate(payload){
     let url = '/chick/admin/dict/update'
     return axios.post(url,{payload})
 }
+<<<<<<< HEAD
 imgUpload(){
   let url = '/chick/admin/upload/img'
   return axios.post(url)
 }
+=======
+img(payload){
+  let url = '/chick/admin/upload/img'
+  return axios.post(url,payload)
+}
+
+
+>>>>>>> b85f15664603c2976718cc7e548fcfd331b4e9ea
 }
 
 export default  new Dicmanage()

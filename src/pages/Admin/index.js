@@ -21,9 +21,10 @@ class Admin extends Component {
     this.props.history.push('/login')
   }
   componentDidMount(){
+    //获取用户名
     if(localStorage.getItem('user')){
-      let user = localStorage.getItem('user')
-      this.setState({user})
+      let result = JSON.parse(localStorage.getItem('user'))
+      this.setState({user:result.user})
     }
   }
   exitLogin=()=>{
@@ -32,6 +33,7 @@ class Admin extends Component {
   }
   render() {
     let {tokenModal} = this.props
+    // console.log(tokenModal)
     return (
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal?<Modal></Modal>:''}

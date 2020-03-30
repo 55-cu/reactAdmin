@@ -9,19 +9,25 @@ class DicAdd extends Component {
     "name":"",
     "desc":'',
     "path":null,
-    "topic":""
+    "topic":"",
+    "creator":'fan'
  }
  
  //增加词典数据
  dicAdd= async ()=>{
     let {err,msg} = await dicManage.dicAdd(this.state)
     if(err===-1){
-        { return message.error(msg)}
+        return message.error(msg)
     }
     this.props.history.replace('/admin/dicmanage/dicinfo')
  }
+<<<<<<< HEAD
  upload= async ()=>{
 
+=======
+ upload=async ()=>{
+    // 1. 获取图片里的内容
+>>>>>>> b85f15664603c2976718cc7e548fcfd331b4e9ea
     let  file = this.refs.img.files[0]
     console.log(file)
     if(!file){ return message.error('请先选择一张图片')}
@@ -31,6 +37,7 @@ class DicAdd extends Component {
     let types = ['jpg',"jpeg",'gif','png']
     if(size>1000000){ return message.warning('图片超过1m')}
     if(types.indexOf(type.split('/')[1])===-1){ return message.warning('只允许jpg.jpeg,gif,png四种类型')}
+<<<<<<< HEAD
     // 将图片变成formdata对象 
      let formdata  = new FormData()
      formdata.append('img',file)
@@ -39,6 +46,18 @@ class DicAdd extends Component {
         return message.error(msg)
      }
      this.setState({path})
+=======
+    // 调用接口
+    // 将图片转化为formdata 
+    let data = new FormData()
+    data.append('hehe',file)
+    console.log('哈哈哈',data.get('hehe'))
+    let {code,msg,path} = await dicManage.img(data)
+    if(code){ return message.error(msg)}
+    this.setState({path:'http://39.99.195.178:3000'+path})
+    console.log(this.state.path)
+  }
+>>>>>>> b85f15664603c2976718cc7e548fcfd331b4e9ea
 
   }  
   render(){
