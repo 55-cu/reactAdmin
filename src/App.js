@@ -1,5 +1,7 @@
 import React ,{Component} from 'react';
 import {HashRouter,Route,Redirect} from 'react-router-dom'
+// import {Redirect} from 'react-router-dom'
+// import KeepAlive from 'react-activation';
 //引入重置样式文件-fan
 import './reset.css'
 
@@ -53,7 +55,8 @@ class App extends Component{
               </Admin>
             )
           }}></Route>
-          <Redirect exact from="/" to="/admin/home"></Redirect>
+
+          <Redirect  from="/" to="/admin/home"></Redirect>
         </HashRouter>
         
       )

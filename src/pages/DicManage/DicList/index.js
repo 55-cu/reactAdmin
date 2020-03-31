@@ -8,11 +8,7 @@ class DicList extends Component {
  state={
    spinning:false,
    page:1,
-<<<<<<< HEAD
-   pageSize:4,
-=======
    pageSize:5,
->>>>>>> c0d3018492b55976351a3e64e4959b6db233d6e9
    list:[],
    count:0,
    kw:'',
@@ -126,14 +122,10 @@ class DicList extends Component {
         <Card title='词典列表' className={style.card}>
            <div className={style.button}>
            <div>
-<<<<<<< HEAD
-             <input type='text'  placeholder='  关键字查询' className={style.input} value={kw} onChange={(e)=>{
-=======
            <Icon type='search' onClick={()=>{
               this.getDicDataByKw(kw,page,pageSize)
            }}></Icon> 
              <input type='text'  placeholder='关键字查询' className={style.input} value={kw} onChange={(e)=>{
->>>>>>> c0d3018492b55976351a3e64e4959b6db233d6e9
               this.setState({kw:e.target.value})
            }}/>
            </div>

@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import style from './index.module.less';
-import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin} from 'antd';
+import LazyLoad from 'react-lazyload';
+import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin, Modal} from 'antd';
+import tokenModal from '../../tokenModal';
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 // let rootpath = 'http://39.99.195.178:3000'
 class UserList extends Component{
     state={
@@ -141,6 +145,7 @@ class UserList extends Component{
           XLSX.writeFile(wb,'小鸡用户.xlsx')
             }
     render(){
+      let {tokenModal} =this.props;
         const  columns=[
             {
                 title: 'ID',
@@ -174,7 +179,9 @@ class UserList extends Component{
                   //   }
                   //   }
                     return (
+                      <LazyLoad src="./logo.png">
                         <img  src={avator} alt='暂无图片' width='80' height='80'/>
+                      </LazyLoad>
                     )
                 }
               },
@@ -223,7 +230,7 @@ class UserList extends Component{
         ]
         return(
             <div className={style.box}>
-           
+           {tokenModal?<tokenModal></tokenModal>:null}
             <Card title='小鸡词典用户' className={style.card}>
             <Button type='primary' className={style.export} onClick={()=>{
           if(this.state.loading) {return false}
@@ -281,5 +288,5 @@ class UserList extends Component{
         )
     }
 }
-
-export default UserList;
+export default connect(state => state)(withRouter(UserList));
+// export default UserList;
