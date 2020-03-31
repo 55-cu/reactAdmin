@@ -13,7 +13,7 @@ class DicList extends Component {
    count:0,
    kw:'',
    columns:[
-     {title:'_id', dataIndex:'_id',key:'_id' },
+     {title:'_id', dataIndex:'_id',key:'_id', width :220},
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
      {title:'图片', dataIndex:'path',key:'path',render:(path)=>{
@@ -28,7 +28,6 @@ class DicList extends Component {
      {title:'点赞数', dataIndex:'likes',key:'likes' ,defaultSortOrder: 'descend',
      sorter: (a, b) => a.likes - b.likes,},
      {title:'创建者', dataIndex:'creator',key:'creator' },
-     {title:'创建时间', dataIndex:'ctime',key:'ctime' },
      {title:'操作', key:'action',render:(record)=>{
       return(
         <div>
@@ -41,15 +40,13 @@ class DicList extends Component {
           }}
           >
             <Button type='danger' size='small'>删除</Button>
-          </Popconfirm>
+          </Popconfirm><br/><br/>
                 <Button type='primary' size='small'
                 onClick={()=>{
                   console.log(record)
                   this.props.history.replace('/admin/dicmanage/dicupdate/'+record._id)
                 }}
                 >修改</Button>  
-              
-             
            </div>
          )
      }},
@@ -84,7 +81,6 @@ class DicList extends Component {
  //关键字查询
  getDicDataByKw = async()=>{
     let {page,pageSize,kw}  = this.state
-    console.log(kw)
     let {err,msg,list,allCount} = await dicManage.findByKw(kw,page,pageSize)
     if(err===-1){
         return message.error(msg)
@@ -118,8 +114,8 @@ class DicList extends Component {
     let {list,columns,count,pageSize,page,kw,spinning} = this.state
     return (
       <div className={style.box}>
-         
-        <Card title='词典列表' className={style.card}>
+        <Card  title='词典列表' className={style.card}>
+
            <div className={style.button}>
            <div>
            <Icon type='search' onClick={()=>{
