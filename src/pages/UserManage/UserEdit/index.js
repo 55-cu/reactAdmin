@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card,Input,Select,Button,Avatar,Popconfirm,message} from 'antd';
+import {Card,Input,Select,Button,Avatar,Popconfirm} from 'antd';
 import style from './index.module.less';
 import UserApi from '../../../api/userManage';
 const {Option} =Select;
@@ -10,22 +10,23 @@ class UserEdit extends Component{
         name:'',
         avator:'',
         identity:'',
-        // identitySign:false
+        limits:''
     }
     componentDidMount(){
-        // console.log(this.props.location.state)
-        let {_id,name,avator,identity}=this.props.location.state;
-        this.setState({_id:_id,name:name,avator:avator,identity:identity});
-        console.log(this.state._id)
-        // this.identity==="超级管理员"?this.identitySign =true:this.identitySign=false;
+        console.log("state",this.props.location.state)
+        let {_id,name,avator,identity,limit}=this.props.location.state;
+        // console.log("信息",{_id,name,avator,identity})
+        this.setState({_id:_id,name:name,avator:avator,identity:identity,limits:limit});
+        
     }
     async submitChange(){
         let _id=this.state._id;
-        let name=this.state.name;
+        let user=this.state.name;
         let pass = this.state.pass;
         let img = this.state.avator || '';
-        let leavel =this.state.identity;
-        let result=await UserApi.userEdit({_id,name,pass,img,leavel})
+        let leavel =this.state.identity==="会员"?"admin":"root";
+        console.log({_id,user,pass,img,leavel})
+        let result=await UserApi.userEdit({_id,user,pass,img,leavel})
         console.log(result)
         this.props.history.push('/admin/user/userlist')
     }
@@ -49,13 +50,11 @@ class UserEdit extends Component{
             <Avatar src={this.state.avator} shape="square" />:
             <Avatar icon="user" shape="square"/>
             }
-            {/* <Button type="primary" size="small" className={style.btn1} onClick={()=>{
-            }}>改变头像</Button> */}
             <p className={style.message}>编辑用户身份</p>
-            {this.state.identity==="超级管理员"?
+            {this.state.limits==="root"?
             <Select defaultValue={this.state.identity} onChange={(e)=>{
-                let result= e.target.value === "超级管理员"? "root":"admin";
-                this.setState({identity:result})
+                // console.log(e)
+                this.setState({identity:e})
             }}>
                 <Option value="root">超级管理员</Option>
                 <Option value="admin">会员</Option>
