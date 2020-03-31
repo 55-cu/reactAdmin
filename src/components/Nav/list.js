@@ -93,19 +93,6 @@ export default {
           icon:'heat-map'
         }
       ]
-    },
-    {
-      key:'5',
-      title:'评论管理',
-      icon:'smile',
-      children:[
-        {
-          key:'5-1',
-          title:'评论删除',
-          path:'/admin/discuss/del',
-          icon:'delete'
-        }
-      ]
     }
   ],
   admin:[
@@ -143,7 +130,14 @@ export default {
       key:'6',
       title:'评论管理',
       icon:'smile',
-      path:'/admin/discuss'
+      children:[
+        {
+          key:'6-1',
+          title:'一级评论',
+          icon:'smile',
+          path:'/admin/discuss'
+        }
+      ]
     }
   ]
 } 

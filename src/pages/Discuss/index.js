@@ -1,20 +1,29 @@
 import React from 'react'
 import { Component } from 'react'
 import { Card, Table } from 'antd'
-
+import dicManage from '../../api/dicmanage'
 
 const columns = [
-    { title: '主词条', dataIndex: 'word', key: 'word' },
-    { title: '评论者', dataIndex: 'discuss', key: 'discuss' },
-    { title: '评论数', dataIndex: 'num', key: 'num' },
-    { title: '点赞数', dataIndex: 'count', key: 'count' },
-    { title: '一级评论', dataIndex: 'first', key: 'first' },
-
+    { title: '主词条id', dataIndex: '_id', key: '_id' },
+    { title: '评论者', dataIndex: 'creator', key: 'creator' },
+    { title: '评论内容', dataIndex: 'desc', key: 'desc' },
+    { title: '头像', dataIndex: 'img', key: 'img' },
+    { title: '创建时间', dataIndex: 'ctime', key: 'ctime' },
 ]
 
 class Discuss extends Component {
     state = {
-        dataSource: ''
+        dataSource: [],
+        page: 1,
+        pageSize: 10,
+        newtime: ''
+    }
+
+    componentDidMount() {
+        let { page, pageSize } = this.state
+        dicManage.findByPage({ page, pageSize }).then((res) => {
+            this.setState({ dataSource: res.list })
+        })
     }
     render() {
         let { dataSource } = this.state
@@ -24,6 +33,7 @@ class Discuss extends Component {
                     <Table columns={columns}
                         // expandedRowRender={recode=><p style={{margin:0}}>{recode.description}</p>}
                         dataSource={dataSource}
+                        rowKey='_id'
                     >
 
                     </Table>
