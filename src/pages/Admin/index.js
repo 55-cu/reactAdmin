@@ -76,9 +76,9 @@ class Admin extends Component {
             <div className={style.right}>
               
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
-                <a className="ant-dropdown-link" >
+                <span className={style.headerBtn} >
                 {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
-                </a>
+                </span>
               </Dropdown>}
              
             </div>

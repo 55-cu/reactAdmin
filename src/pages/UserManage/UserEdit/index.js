@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card,Input,Select,Button,Avatar,Popconfirm,message} from 'antd';
+import {Card,Input,Select,Button,Avatar,Popconfirm} from 'antd';
 import style from './index.module.less';
 import UserApi from '../../../api/userManage';
 const {Option} =Select;
