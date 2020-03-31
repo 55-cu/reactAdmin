@@ -94,7 +94,19 @@ export default {
         }
       ]
     },
-    
+    {
+      key:'5',
+      title:'评论管理',
+      icon:'smile',
+      children:[
+        {
+          key:'5-1',
+          title:'评论删除',
+          path:'/admin/discuss/del',
+          icon:'delete'
+        }
+      ]
+    }
   ],
   admin:[
     {
