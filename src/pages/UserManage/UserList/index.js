@@ -4,7 +4,7 @@ import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
-
+let rootpath = 'http://39.99.195.178:3000'
 class UserList extends Component{
     state={
         searchText:'',
@@ -40,7 +40,8 @@ class UserList extends Component{
         if(identity==='超级管理员'){
             return false
         }
-        await UserApi.userDel(_id)
+        await UserApi.userDel({_id})
+        this.getUserData()
         // console.log(result)
     }
     getColumnSearchProps = dataIndex => ({
@@ -158,8 +159,14 @@ class UserList extends Component{
                 align:'center',
                 //图片路径
                 render:(avator)=>{
+                  let result = avator
+                  if(avator !== ''){
+                    if(avator.indexOf('base64')===-1){
+                      result = rootpath+avator
+                    }
+                    }
                     return (
-                        <img  src={avator} alt='暂无图片' />
+                        <img  src={result} alt='暂无图片' width='80' height='80'/>
                     )
                 }
               },
@@ -188,6 +195,18 @@ class UserList extends Component{
                     <Button type='danger' size='small'>删除此用户
                     </Button>
                     </Popconfirm>
+                    <Button type='primary' size='small' className={style.change}
+                    onClick={()=>{
+                      console.log(record)
+                      this.props.history.push({pathname:'/admin/user/useredit',state:{
+                        _id:record._id,
+                        name:record.name,
+                        avator:record.avator,
+                        identity:record.identity,
+                      }})
+                    }}
+                    >修改
+                    </Button>
                     </div>
                     )
                 }

@@ -13,7 +13,6 @@ class DicUpdate extends Component {
    "creator": '',
    "comments": 0,
    "likes": 0,
-   "ctime": "",
  }
  
  //修改词典数据
@@ -53,7 +52,7 @@ class DicUpdate extends Component {
  }
 
   render(){
-   let { desc, topic, name, path,creator,comments,likes,ctime} = this.state
+   let { desc, topic, name, path,creator,comments,likes} = this.state
     return (
       <div className={style.box}>
         <Card title='添加词典' className={style.card}>
@@ -76,9 +75,6 @@ class DicUpdate extends Component {
                   }} /><br />
          创建者：<Input type='text' className={style.input} value={creator} onChange={(e) => {
                      this.setState({ creator: e.target.value })
-                  }} /><br />
-         创建时间：<Input type='text' className={style.input} value={ctime} onChange={(e) => {
-                     this.setState({ ctime: e.target.value })
                   }} /><br />
          图片：<input type="file" ref='img' /><br /><Button onClick={this.upload}>上传图片</Button><br /><br />
                 缩略图:<br /><img width='350' height='80' src={path} alt="" /><br /><br />

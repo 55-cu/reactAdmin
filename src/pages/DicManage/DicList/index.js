@@ -3,6 +3,7 @@ import {Pagination,Card,message,Table,Button,Popconfirm,Spin, Icon} from 'antd'
 import style from './index.module.less'
 import dicManage from '../../../api/dicmanage'
 import XLSX from 'xlsx'
+let rootPath = 'http://39.95.178.1:3000'
 class DicList extends Component {
  state={
    spinning:false,
@@ -15,10 +16,17 @@ class DicList extends Component {
      {title:'_id', dataIndex:'_id',key:'_id' },
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
-     {title:'图片', dataIndex:'img',key:'img' },
+     {title:'图片', dataIndex:'path',key:'path',render:(path)=>{
+       console.log(path)
+      let result =rootPath+path
+      console.log(result)
+      return(<img width ='80' height='80'src={result}/>)
+     } },
      {title:'描述', dataIndex:'desc',key:'desc' },
-     {title:'评论数', dataIndex:'comments',key:'comments' },
-     {title:'点赞数', dataIndex:'likes',key:'likes' },
+     {title:'评论数', dataIndex:'comments',key:'comments', defaultSortOrder: 'descend',
+     sorter: (a, b) => a.comments - b.comments, },
+     {title:'点赞数', dataIndex:'likes',key:'likes' ,defaultSortOrder: 'descend',
+     sorter: (a, b) => a.likes - b.likes,},
      {title:'创建者', dataIndex:'creator',key:'creator' },
      {title:'创建时间', dataIndex:'ctime',key:'ctime' },
      {title:'操作', key:'action',render:(record)=>{
@@ -57,7 +65,7 @@ class DicList extends Component {
     if(err===-1){
         return message.error(msg)
     }else {
-      this.getDicdata()
+      this.getDicData()
       return message.success('删除成功')
     }
    
@@ -67,20 +75,21 @@ class DicList extends Component {
  //获取词典数据
  getDicData= async ()=>{
     let {page,pageSize}  = this.state
-    let {err,msg,list,allcount} = await dicManage.findByPage(page,pageSize)
+    let {err,msg,list,allCount} = await dicManage.findByPage(page,pageSize)
     if(err===-1){
         return message.error(msg)
     }
-    this.setState({list,count:allcount,spinning:false})
+    this.setState({list,count:allCount,spinning:false})
  }
  //关键字查询
- getDicDataByKw = async(kw)=>{
-    let {page,pageSize}  = this.state
-    let {err,msg,list,allcount} = await dicManage.findByPage(kw,page,pageSize)
+ getDicDataByKw = async()=>{
+    let {page,pageSize,kw}  = this.state
+    console.log(kw)
+    let {err,msg,list,allCount} = await dicManage.findByKw(kw,page,pageSize)
     if(err===-1){
         return message.error(msg)
     }
-    this.setState({list,count:allcount})
+    this.setState({list,count:allCount})
  }
  //  导出全部商品
  exportAll=async ()=>{
@@ -144,8 +153,10 @@ class DicList extends Component {
             </Table>
            </Spin>
             <br/>
+            {/* <Pagination  current={page} total={count} showQuickJumper pageSize={pageSize}
+            onChange={(page,pageSize)=>{ */}
             <Pagination  current={page} total={count} showQuickJumper pageSize={pageSize}
-            onChange={(page,pageSize)=>{
+            onChange={(page)=>{
               //只要页码数发生改变就会触发          
               this.setState({page},()=>{
                 this.getDicData()
