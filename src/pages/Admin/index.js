@@ -15,7 +15,7 @@ class Admin extends Component {
     user: '',
     show: false,
     administrator: '',
-   
+    locationList:''
   };
 
   onCollapse = collapsed => {
@@ -29,6 +29,7 @@ class Admin extends Component {
     this.setState({visiable:true })
   }
   componentDidMount() {
+    // console.log(window.location.hash)
     //获取用户名
     if (localStorage.getItem('user')) {
       let result = JSON.parse(localStorage.getItem('user'))
@@ -42,6 +43,7 @@ class Admin extends Component {
     if (token) {
       this.setState({ show: true })
     }
+    // console.log(this.props)
   }
   exitLogin = () => {
     localStorage.setItem('user', '')
@@ -77,7 +79,7 @@ class Admin extends Component {
               
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
                 <a className="ant-dropdown-link" >
-                {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
+                {administrator === 1 ? '超级管理员' : '会员'}<Icon type="down" />
                 </a>
               </Dropdown>}
              
@@ -85,11 +87,21 @@ class Admin extends Component {
             {/* <Button type="link" onClick={this.toLogin} className={style.login}>登录</Button> */}
           </Header>
           <Content >
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            {/*cy修改*/}
+            <Breadcrumb style={{ margin: '16px 20px 16px' }}>
+              <Breadcrumb.Item >{
+                this.props.location.pathname.split('/')[1]
+              }</Breadcrumb.Item>
+              <Breadcrumb.Item >{
+                this.props.location.pathname.split('/')[2]
+              }</Breadcrumb.Item>
+              <Breadcrumb.Item>{
+                this.props.location.pathname.split('/')[3]
+              }</Breadcrumb.Item>
+
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+              {/* {this.setState({locationList:this.props.location.pathname.split('/')})} */}
               {this.props.children}
             </div>
           </Content>
