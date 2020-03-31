@@ -63,7 +63,7 @@ class DicAdd extends Component {
    render() {
       //console.log( this.props.form)
       let { getFieldDecorator } = this.props.form;
-      let { desc, topic, name, path, creator, comments, likes } = this.state
+      let { path, comments, likes } = this.state
       return (
          <div className={style.box}>
             <Card title='添加词典' className={style.card}>

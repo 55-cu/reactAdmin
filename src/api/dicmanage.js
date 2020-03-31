@@ -1,7 +1,7 @@
 import axios from '../utils/axios'
 class Dicmanage {
   findByKw(kw,page,pageSize){
-    let url='/chick/admin/dict/info'
+    let url='/chick/admin/dict/kwinfo'
     return axios.post(url,{kw,page,pageSize})
   }
   findByTopic(topic,page,pageSize){
