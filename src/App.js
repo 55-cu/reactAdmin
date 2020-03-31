@@ -37,7 +37,8 @@ class App extends Component{
     render(){
       return(
           <HashRouter>
-          <Route path='/login' component={Login}></Route>
+          <Route path='/login' component={Login}>
+          </Route>
           <Route path='/admin' render ={()=>{
             return(
               <Admin>
@@ -48,10 +49,10 @@ class App extends Component{
                 <Route path='/admin/echarts/piano' component={EchartsPiano}></Route>
                 <Route path="/admin/hot/list" component={HotList}></Route>
                 <Route path="/admin/hot/add" component={AddHot}></Route>
-                <Route path="/admin/home" component={Home}></Route>
+                <Route path="/admin/home" component={Home}></Route> 
                 <Route path="/admin/dicmanage/dicinfo" component={DicList}></Route>
                 <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
-                <Route path="/admin/dicmanage/dicupdate" component={DicUpdate}></Route>
+                <Route path="/admin/dicmanage/dicupdate/:id" component={DicUpdate}></Route>
                 <Route path="/admin/echarts" component={Empty}></Route>
                 <Route path="/admin/comments/second" component={Second}></Route>
               </Admin>
@@ -59,6 +60,7 @@ class App extends Component{
           }}></Route>
           <Redirect exact from="/" to="/admin/home"></Redirect>
         </HashRouter>
+        
       )
     }
   }

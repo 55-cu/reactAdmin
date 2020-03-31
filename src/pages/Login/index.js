@@ -18,6 +18,7 @@ class Login extends Component {
             message.error("用户名或密码错误，请重试！");
           } else {
               // 登录成功获取token并且保存到localstorage里 
+              // console.log(res.userInfo)
               localStorage.setItem('token',res.userInfo.token)
               let {user,leavel,_id} = res.userInfo
               localStorage.setItem('user',JSON.stringify({user,leavel,_id}))
@@ -79,7 +80,7 @@ class Login extends Component {
             >
               登录
             </Button><br />
-            <Checkbox>记住账号</Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Checkbox >记住账号</Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
             <span className={style.logininfo}>
               忘记密码
             </span>&nbsp;&nbsp;&nbsp;&nbsp;
