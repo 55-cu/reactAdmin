@@ -8,6 +8,11 @@ class Dicmanage {
     let url='/chick/admin/dict/topicinfo'
     return axios.post(url,{topic,page,pageSize})
   }
+ 
+  findById(_id){
+    let url='/chick/admin/dict/info'
+    return axios.post(url,{_id})
+  }
   findByPage(page,pageSize){
     let url='/chick/admin/dict/infopage'
     return axios.post(url,{page,pageSize})
@@ -20,9 +25,9 @@ class Dicmanage {
     let url = '/chick/admin/dict/del'
     return axios.post(url,{_id})
 }
-dicUpdate(_id,updateInfo){
-    let url = '/chick/admin/dict/update'
-    return axios.post(url,{_id,updateInfo})
+dicUpdate(payload){
+    let url = '/chick/admin/dict/update' 
+    return axios.post(url,{payload})
 }
 
 img(payload){

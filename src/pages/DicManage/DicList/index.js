@@ -3,16 +3,11 @@ import {Pagination,Card,message,Table,Button,Popconfirm,Spin, Icon} from 'antd'
 import style from './index.module.less'
 import dicManage from '../../../api/dicmanage'
 import XLSX from 'xlsx'
-let rootPath = 'http://39.95.178.1:3000'
 class DicList extends Component {
  state={
    spinning:false,
    page:1,
-<<<<<<< HEAD
-   pageSize:4,
-=======
    pageSize:5,
->>>>>>> c0d3018492b55976351a3e64e4959b6db233d6e9
    list:[],
    count:0,
    kw:'',
@@ -20,11 +15,8 @@ class DicList extends Component {
      {title:'_id', dataIndex:'_id',key:'_id', width :220},
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
-     {title:'图片', dataIndex:'path',key:'path',render:(path)=>{
-       console.log(path)
-      let result =rootPath+path
-      console.log(result)
-      return(<img width ='80' height='80'src={result}/>)
+     {title:'图片', dataIndex:'img',key:'img',render:(img)=>{
+      return(<img width ='80' height='80'src={img}/>)
      } },
      {title:'描述', dataIndex:'desc',key:'desc' },
      {title:'评论数', dataIndex:'comments',key:'comments', defaultSortOrder: 'descend',
@@ -37,7 +29,6 @@ class DicList extends Component {
         <div>
           <Popconfirm title='你确定要删除该商品嘛?'
           onConfirm={()=>{
-            console.log(record)
             this.delDic(record._id)}}
           onCancel={()=>{
             message.error('取消删除');
@@ -47,7 +38,6 @@ class DicList extends Component {
           </Popconfirm><br/><br/>
                 <Button type='primary' size='small'
                 onClick={()=>{
-                  console.log(record)
                   this.props.history.replace('/admin/dicmanage/dicupdate/'+record._id)
                 }}
                 >修改</Button>  
@@ -122,14 +112,10 @@ class DicList extends Component {
 
            <div className={style.button}>
            <div>
-<<<<<<< HEAD
-             <input type='text'  placeholder='  关键字查询' className={style.input} value={kw} onChange={(e)=>{
-=======
            <Icon type='search' onClick={()=>{
               this.getDicDataByKw(kw,page,pageSize)
            }}></Icon> 
              <input type='text'  placeholder='关键字查询' className={style.input} value={kw} onChange={(e)=>{
->>>>>>> c0d3018492b55976351a3e64e4959b6db233d6e9
               this.setState({kw:e.target.value})
            }}/>
            </div>
