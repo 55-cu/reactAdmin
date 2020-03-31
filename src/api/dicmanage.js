@@ -20,16 +20,15 @@ class Dicmanage {
     let url = '/chick/admin/dict/del'
     return axios.post(url,{_id})
 }
-dicUpdate(payload){
+dicUpdate(_id,updateInfo){
     let url = '/chick/admin/dict/update'
-    return axios.post(url,{payload})
+    return axios.post(url,{_id,updateInfo})
 }
+
 img(payload){
   let url = '/chick/admin/upload/img'
   return axios.post(url,payload)
 }
-
-
 }
 
 export default  new Dicmanage()
