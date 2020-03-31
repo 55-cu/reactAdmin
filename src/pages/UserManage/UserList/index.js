@@ -15,18 +15,19 @@ class UserList extends Component{
         data:[],
         delSign:false,
         loading:true,
+        limit:''
     }
     getUserData = async()=>{
         let {page,pageSize} =this.state
         let {list,msg,err,allCount} =await UserApi.userQuery({page,pageSize})
-        // console.log(list)
+        console.log(list)
         if(err !==0){ return message.error(msg)}
         let result=list.map((item,index)=>{
             return {
                 key:index+1,
                 _id:item._id,
                 name:item.user,
-                avator:item.avator||'',
+                avator:item.img||'',
                 identity:item.leavel === 'root'?'超级管理员':'会员',
                 handle:''
             }
@@ -35,6 +36,13 @@ class UserList extends Component{
     }
     componentDidMount(){
         this.getUserData()
+        if(localStorage.getItem("user")){
+          // console.log(localStorage.getItem("user"))
+          let result=JSON.parse(localStorage.getItem("user")).leavel
+          this.setState({limit:result})
+        }
+        // let result=JSON.parse(localStorage.getItem('user'))
+        // console.log(result.leavel)
     }
     delUser=async (_id,identity)=>{
         if(identity==='超级管理员'){
@@ -159,14 +167,14 @@ class UserList extends Component{
                 align:'center',
                 //图片路径
                 render:(avator)=>{
-                  let result = avator
-                  if(avator !== ''){
-                    if(avator.indexOf('base64')===-1){
-                      result = rootpath+avator
-                    }
-                    }
+                  // let result = avator
+                  // if(avator !== ''){
+                  //   if(avator.indexOf('base64')===-1){
+                  //     result = rootpath+avator
+                  //   }
+                  //   }
                     return (
-                        <img  src={result} alt='暂无图片' width='80' height='80'/>
+                        <img  src={avator} alt='暂无图片' width='80' height='80'/>
                     )
                 }
               },
@@ -203,6 +211,7 @@ class UserList extends Component{
                         name:record.name,
                         avator:record.avator,
                         identity:record.identity,
+                        limit:this.state.limit
                       }})
                     }}
                     >修改
