@@ -6,7 +6,7 @@ import dicManage from '../../../api/dicmanage'
 class DicList extends Component {
  state={
    page:1,
-   pageSize:2,
+   pageSize:4,
    list:[],
    count:0,
    kw:'',
@@ -80,7 +80,7 @@ class DicList extends Component {
              this.props.history.push('/admin/dicmanage/dicadd')
            }}>商品添加</Button> */}
            <div>
-             <input type='text'  placeholder='关键字查询' className={style.input} value={kw} onChange={(e)=>{
+             <input type='text'  placeholder='  关键字查询' className={style.input} value={kw} onChange={(e)=>{
               this.setState({kw:e.target.value})
            }}/>
            <Icon type='search' onClick={()=>{

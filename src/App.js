@@ -33,7 +33,8 @@ class App extends Component{
     render(){
       return(
           <HashRouter>
-          <Route path='/login' component={Login}></Route>
+          <Route path='/login' component={Login}>
+          </Route>
           <Route path='/admin' render ={()=>{
             return(
               <Admin>
@@ -54,6 +55,7 @@ class App extends Component{
           }}></Route>
           <Redirect exact from="/" to="/admin/home"></Redirect>
         </HashRouter>
+        
       )
     }
   }
