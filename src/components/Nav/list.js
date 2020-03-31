@@ -70,6 +70,25 @@ export default {
       ]
     },
     {
+      key:'6',
+      title:"评论管理",
+      icon:'comments',
+      children:[
+        {
+          key:'6-1',
+          title:'一级评论',
+          path:'/admin/comments/first',
+          icon:''
+        },
+        {
+          key:'6-2',
+          title:'二级评论',
+          path:'/admin/comments/second',
+          icon:'line'
+        },
+      ]
+    },
+    {
       key:'4',
       title:"数据统计",
       icon:'echarts',
@@ -128,16 +147,22 @@ export default {
     },
     {
       key:'6',
-      title:'评论管理',
-      icon:'smile',
+      title:"评论管理",
+      icon:'comments',
       children:[
         {
           key:'6-1',
           title:'一级评论',
-          icon:'smile',
-          path:'/admin/discuss'
-        }
+          path:'/admin/comments/first',
+          icon:''
+        },
+        {
+          key:'6-2',
+          title:'二级评论',
+          path:'/admin/comments/second',
+          icon:'line'
+        },
       ]
-    }
+    },
   ]
 } 

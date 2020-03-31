@@ -4,7 +4,7 @@ import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
-let rootpath = 'http://39.99.195.178:3000'
+// let rootpath = 'http://39.99.195.178:3000'
 class UserList extends Component{
     state={
         searchText:'',

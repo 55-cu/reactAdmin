@@ -80,7 +80,7 @@ class Login extends Component {
             >
               登录
             </Button><br />
-            <Checkbox>记住账号</Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Checkbox >记住账号</Checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
             <span className={style.logininfo}>
               忘记密码
             </span>&nbsp;&nbsp;&nbsp;&nbsp;
