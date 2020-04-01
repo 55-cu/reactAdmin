@@ -19,7 +19,7 @@ class Admin extends Component {
     pageSize: '100',
     imgSrc: '',
     name: '',
-    locationList:''
+    locationList: ''
   };
 
   onCollapse = collapsed => {
@@ -34,16 +34,22 @@ class Admin extends Component {
   }
   componentDidMount() {
     // 获取头像和_id
-    let { page, pageSize } = this.state
-    userManage.userQuery({ page, pageSize }).then((res) => {
-      let { _id } = JSON.parse(localStorage.getItem('user'))
-      res.list.forEach((item) => {
-        let id = item._id
-        if (id === _id) {
-          this.setState({ imgSrc: item.img, name: item.user })
-        }
+    if (localStorage.getItem('user')) {
+      let { page, pageSize } = this.state
+      userManage.userQuery({ page, pageSize }).then((res) => {
+        console.log(res)
+        let { _id } = JSON.parse(localStorage.getItem('user'))
+        res.list.forEach((item) => {
+          let id = item._id
+          if (id === _id) {
+            this.setState({ imgSrc: item.img, name: item.user })
+          }
+        })
       })
-    })
+    }else{
+      this.props.history.push('/login')
+    }
+
     // console.log(window.location.hash)
     //获取用户名
     if (localStorage.getItem('user')) {
@@ -91,9 +97,9 @@ class Admin extends Component {
         </Sider>
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
-            {/* <div className={style.headerDiv}>
-              <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
-            </div> */}
+            <div className={style.headerDiv}>
+              <div className={style.headerBg}></div>
+            </div>
             <div className={style.right}>
 
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
@@ -112,23 +118,23 @@ class Admin extends Component {
             {/*cy修改*/}
             <Breadcrumb style={{ margin: '16px 20px 16px' }}>
               <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/home`}>
-              <Icon type={"setting"} style={{marginRight:"5px"}}/>
+                <Icon type={"setting"} style={{ marginRight: "5px" }} />
                 {
-                this.props.location.pathname.split('/')[1]
-              }</Breadcrumb.Item>
+                  this.props.location.pathname.split('/')[1]
+                }</Breadcrumb.Item>
               <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}`}>
-              <Icon type={"sync"} style={{marginRight:"5px"}}/>
+                <Icon type={"sync"} style={{ marginRight: "5px" }} />
                 {
-                this.props.location.pathname.split('/')[2]
-              }</Breadcrumb.Item>
-              {this.props.location.pathname.split('/')[3]?
+                  this.props.location.pathname.split('/')[2]
+                }</Breadcrumb.Item>
+              {this.props.location.pathname.split('/')[3] ?
                 <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
-                <Icon type={"loading"} style={{marginRight:"5px"}}/>
-                {
-                this.props.location.pathname.split('/')[3]
-              }</Breadcrumb.Item>:null
+                  <Icon type={"tag"} style={{ marginRight: "5px" }} />
+                  {
+                    this.props.location.pathname.split('/')[3]
+                  }</Breadcrumb.Item> : null
               }
-          
+
 
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>

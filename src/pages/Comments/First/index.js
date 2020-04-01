@@ -1,10 +1,10 @@
 import React from 'react'
 import { Component } from 'react'
-import { Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination } from 'antd'
+import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination } from 'antd'
 import disFirst from '../../../api/dicFirst'
 import dicmanage from '../../../api/dicmanage'
 import LazyLoad from 'react-lazyload';
-
+const { Option } = Select;
 class Discuss extends Component {
     state = {
         img:'',
@@ -14,6 +14,8 @@ class Discuss extends Component {
         visible: false,
         loading:true,
         count:1,
+        type:[],
+        selValue:'请选择词条id',
         columns: [
             { title: '主词条id', dataIndex: 'from_id', key: 'from_id' },
             { title: '评论者', dataIndex: 'name', key: 'name' },
@@ -90,8 +92,38 @@ class Discuss extends Component {
         // console.log(page, pageSize)
         disFirst.findFirst({ page, pageSize }).then((res) => {
             if(!res.list){return}
-            this.setState({ dataSource: res.list.result,loading:false,count:res.list.allCount })
+            //处理from_id
+            let dataType = this.handleType(res.list.result)
+            this.setState({ dataSource: res.list.result,loading:false,count:res.list.allCount ,type:dataType})
         })
+    }
+    //处理from_id
+    handleType=(list)=>{
+        let result = []
+        for (const v of list) {
+            if(!result.includes(v.from_id)){
+                result.push(v.from_id)
+            }
+        }
+        return result
+    }
+    //根据主词条id进行查询
+    searchById=async ()=>{
+        this.setState({loading:true})
+        let {selValue}=this.state
+        if(selValue !== '请选择词条id'){
+            let result = await disFirst.getDataById({from_id:selValue})
+            let {list,err} = result
+            if(!list){return}
+            if(err === 0){
+                this.setState({dataSource:list.result,count:list.allCount})
+                message.success('查询成功')
+            }
+            this.setState({loading:false})
+        }else{
+            message.warning('请输入正确id')
+            this.setState({loading:false})
+        }
     }
     componentDidMount() {
         let { page, pageSize } = this.state
@@ -124,7 +156,7 @@ class Discuss extends Component {
     }
    
     render() {
-        let { dataSource, columns, visible,img,loading,page,pageSize,count} = this.state
+        let { dataSource, columns, visible,img,loading,page,pageSize,count,type,selValue} = this.state
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -142,6 +174,20 @@ class Discuss extends Component {
                     <div>
                         <Button type='primary' size='small' onClick={this.openModal}>新增</Button>
                         {/* <Button type='primary' size='small' style={{margin:'0 0 15px 15px'}}>导出</Button> */}
+                    </div>
+                    <div style={{margin: '20px 0'}}>
+                        <Select value={selValue} style={{width:'200px'}} onChange={(value)=>{
+                            this.setState({selValue:value})
+                        }}>
+                            {
+                                type.map((item,index)=>{
+                                    return (
+                                        <Option value={item} key={index}>{item}</Option>
+                                    )
+                                })
+                            }
+                        </Select>
+                        <Button type="primary" icon="search"  onClick={this.searchById}/>
                     </div>
                     <Spin tip="Loading..." spinning={loading}>
                         <Table columns={columns}

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import style from './index.module.less';
 import LazyLoad from 'react-lazyload';
-import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin} from 'antd';
+import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin,Avatar} from 'antd';
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { withRouter } from 'react-router-dom'
+// import { connect } from 'react-redux'
 // let rootpath = 'http://39.99.195.178:3000'
 class UserList extends Component{
     state={
@@ -172,7 +172,7 @@ class UserList extends Component{
                 render:(avator)=>{
                     return (
                       <LazyLoad>
-                        <img  src={avator} alt='暂无图片' width='80' height='80'/>
+                        <Avatar  src={avator} alt='暂无图片' width='40' height='40' type="circle"/>
                       </LazyLoad>
                     )
                 }
@@ -187,12 +187,11 @@ class UserList extends Component{
               },
               {
                 title: '操作',
-                dataIndex: 'handle',
                 key: 'handle',
                 // width:200,
                 // fixed:'right',
                 align:'center',
-                render:(record)=>{
+                render:(text,record,index)=>{
                     return(
                     <div>
                     <Popconfirm title='你确定要删除该用户吗?' onConfirm={()=>{
@@ -278,5 +277,5 @@ class UserList extends Component{
         )
     }
 }
-export default connect(state => state)(withRouter(UserList));
-// export default UserList;
+// export default connect(state => state)(withRouter(UserList));
+export default UserList;
