@@ -123,7 +123,7 @@ class Admin extends Component {
               }</Breadcrumb.Item>
               {this.props.location.pathname.split('/')[3]?
                 <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
-                <Icon type={"loading"} style={{marginRight:"5px"}}/>
+                <Icon type={"tag"} style={{marginRight:"5px"}}/>
                 {
                 this.props.location.pathname.split('/')[3]
               }</Breadcrumb.Item>:null

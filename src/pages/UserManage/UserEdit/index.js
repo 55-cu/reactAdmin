@@ -16,7 +16,7 @@ class UserEdit extends Component{
         limits:''
     }
     componentDidMount(){
-        console.log("state",this.props.location.state)
+        // console.log("state",this.props.location.state)
         let {_id,name,avator,identity,limit}=this.props.location.state;
         // console.log("信息",{_id,name,avator,identity})
         this.setState({_id:_id,name:name,avator:avator,identity:identity,limits:limit});
@@ -28,7 +28,7 @@ class UserEdit extends Component{
         let pass = this.state.pass;
         let img = this.state.avator || '';
         let leavel =this.state.identity==="会员"?"admin":"root";
-        console.log({_id,user,pass,img,leavel})
+        // console.log({_id,user,pass,img,leavel})
         UserApi.userEdit({_id,user,pass,img,leavel})
         // console.log(result)
         this.props.history.push('/admin/user/userlist')
