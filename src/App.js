@@ -7,7 +7,7 @@ import './reset.css'
 
 //设置懒加载 - cy
 import loadalbe from "./utils/loadable"
-
+import Discuss from './pages/Discuss'
 //引入用户组件 - cy
 const UserList = loadalbe(()=>import ('./pages/UserManage/UserList'))
 const UserEdit = loadalbe(()=>import ('./pages/UserManage/UserEdit'))
@@ -56,6 +56,7 @@ class App extends Component{
                 <Route path="/admin/dicmanage/dicadd" component={DicAdd}></Route>
                 <Route path="/admin/dicmanage/dicupdate/:id" component={DicUpdate}></Route>
                 <Route path="/admin/echarts" component={Empty}></Route>
+                <Route path='/admin/comments/first' component={Discuss}></Route>
                 <Route path="/admin/comments/second" component={Second}></Route>
               </Admin>
             )

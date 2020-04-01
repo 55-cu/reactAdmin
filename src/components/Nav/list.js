@@ -112,8 +112,7 @@ export default {
           icon:'heat-map'
         }
       ]
-    },
-    
+    }
   ],
   admin:[
     {
