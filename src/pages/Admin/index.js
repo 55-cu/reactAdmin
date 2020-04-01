@@ -16,7 +16,7 @@ class Admin extends Component {
     show: false,
     administrator: '',
     page: '1',
-    pageSize: '5',
+    pageSize: '20',
     imgSrc: '',
     name: '',
     locationList:''
@@ -36,6 +36,7 @@ class Admin extends Component {
     // 获取头像和_id
     let { page, pageSize } = this.state
     userManage.userQuery({ page, pageSize }).then((res) => {
+      console.log(res)
       let { _id } = JSON.parse(localStorage.getItem('user'))
       res.list.map((item, index) => {
         let id = item._id
