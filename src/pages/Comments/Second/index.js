@@ -88,7 +88,7 @@ class First extends Component {
     ],
     data:[],
     page:1,
-    pageSize:9,
+    pageSize:3,
     count:0,
     loading:true,
     username:'',
