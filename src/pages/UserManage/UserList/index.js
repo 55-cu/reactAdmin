@@ -187,7 +187,6 @@ class UserList extends Component{
               },
               {
                 title: '操作',
-                dataIndex: 'handle',
                 key: 'handle',
                 // width:200,
                 // fixed:'right',
