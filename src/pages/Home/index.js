@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import style from './home.module.less'
-import LazyLoad from 'react-lazyload';
+// import LazyLoad from 'react-lazyload';
 
 
 class Home extends Component {
@@ -8,9 +8,9 @@ class Home extends Component {
     return (
       <div className={style.home}>
         <div>
-          <LazyLoad>
+          {/* <LazyLoad> */}
             <img src="https://jikipedia.com//images/logo/logo_full_side.png" alt="logo展示" />
-          </LazyLoad>
+          {/* </LazyLoad> */}
         </div>
       </div>
     )
