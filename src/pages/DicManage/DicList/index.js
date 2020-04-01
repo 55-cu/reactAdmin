@@ -58,16 +58,11 @@ class DicList extends Component {
   }
  //删除词典
  delDic= async (_id)=>{
-    let {err,msg} = await dicManage.dicDel(_id)
-    if(err===-1){
-        return message.error(msg)
-    }else {
+    let {err} = await dicManage.dicDel(_id)
+    if(err=== 0){
       this.getDicData()
       return message.success('删除成功')
     }
-   
-  
-  
  }
  //获取词典数据
  getDicData= async ()=>{

@@ -58,11 +58,13 @@ class Hot extends Component {
     username:'',
     name:'',
     note:null,
-    id:''
+    id:'',
+    leavel:''
   };
   //确认删除
-  delConfirm(id){
-    hotApi.delTopic(id)
+  delConfirm(_id){
+    this.setState({loading:true})
+    hotApi.delTopic({_id})
     .then((data)=>{
       if(data.err === 0){
         message.warning('删除成功')
@@ -71,10 +73,10 @@ class Hot extends Component {
     })
   }
   //确认编辑
-  updateConfirm=async (id)=>{
+  updateConfirm=async (_id)=>{
     // console.log(id)
     //根据id获取当前话题
-    let result = await this.getTopicById(id)
+    let result = await this.getTopicById({_id})
     if(!result.list){
       return 
     }
@@ -85,12 +87,13 @@ class Hot extends Component {
       name:desc,
       note: hot,
     });
-    this.setState({visible:true,id})
+    this.setState({visible:true,id:_id})
   }
   //确认修改
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        this.setState({loading:false})
         let {username,name,note} = values
         hotApi.updateTopic({name:username,desc:name,hot:note,_id:this.state.id})
         .then((data)=>{
@@ -112,19 +115,6 @@ class Hot extends Component {
     return result
   }
   
-  //编辑模态框确认时间
-  handleOk = () => {
-    this.setState({
-      ModalText: 'The modal will be closed after two seconds',
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
-    }, 1000);
-  };
   //编辑模态框关闭事件
   handleCancel = () => {
     this.setState({
@@ -133,6 +123,10 @@ class Hot extends Component {
   };
   //声明周期获取数据
   async componentDidMount(){
+    if(localStorage.getItem('user')){
+      let value = JSON.parse(localStorage.getItem('user'))
+      this.setState({leavel:value.leavel})
+    }
     this.getListData()
   }
   // 获取热门话题数据
@@ -144,6 +138,7 @@ class Hot extends Component {
   }
   //新建热门话题
   addTopic=()=>{
+    if(this.state.leavel==='admin'){return message.warning('权限不足')}
     this.props.history.push('/admin/hot/add')
   }
   //关键字搜索
