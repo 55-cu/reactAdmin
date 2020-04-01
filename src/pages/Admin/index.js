@@ -91,9 +91,9 @@ class Admin extends Component {
         </Sider>
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
-            {/* <div className={style.headerDiv}>
-              <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
-            </div> */}
+            <div className={style.headerDiv}>
+              <h1 className={style.headerBg}></h1>
+            </div>
             <div className={style.right}>
 
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
