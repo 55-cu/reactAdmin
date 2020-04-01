@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin} from 'antd'
+import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin,Avatar} from 'antd'
 import XLSX from "xlsx"
-
 import style from './second.module.less'
 import commentsApi from '../../../api/comments.js'
 import dicManage from '../../../api/dicmanage.js'
@@ -18,24 +17,25 @@ class First extends Component {
       {
         title: '创建者',
         dataIndex: 'name',
-        width: 120,
+        // width: 120,
         key:"name"
       },
       {
         title: '内容',
         dataIndex: 'desc',
-        width: 180,
+        // width: 180,
         key:"desc"
       },
       {
         title: '头像',
         dataIndex: 'img',
-        width: 80,
+        // width: 80,
         key:"img",
+        align:"center",
         render:(img)=>{
           return (
             <LazyLoad width={120}>
-              <img src={img} style={{width:'120px'}} alt="缩略图"/>                              
+              <Avatar src={img} width='60' height='60' type="circle" alt="缩略图"/>                              
             </LazyLoad>
           )
         }
@@ -43,13 +43,13 @@ class First extends Component {
       {
         title: '一级评论id',
         dataIndex: 'from_id',
-        width: 80,
+        // width: 80,
         key:"from_id",
       },
       {
         title: '点赞',
         dataIndex: 'likes',
-        width: 80,
+        // width: 80,
         key:"likes",
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.hot - b.hot,
@@ -57,7 +57,7 @@ class First extends Component {
       {
         title: '时间',
         dataIndex: 'ctime',
-        width: 150,
+        // width: 150,
         key:"ctime",
         render:(ctime)=>{
           return (
@@ -69,7 +69,7 @@ class First extends Component {
       },
       {
         title: '操作',
-        width: 120,
+        // width: 120,
         key:"options",
         render:(recode)=>{
           return (
