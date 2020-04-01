@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import style from './index.module.less';
 import LazyLoad from 'react-lazyload';
-import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin} from 'antd';
+import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin,Avatar} from 'antd';
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
@@ -172,7 +172,7 @@ class UserList extends Component{
                 render:(avator)=>{
                     return (
                       <LazyLoad>
-                        <img  src={avator} alt='暂无图片' width='80' height='80'/>
+                        <Avatar  src={avator} alt='暂无图片' width='40' height='40' type="circle"/>
                       </LazyLoad>
                     )
                 }
