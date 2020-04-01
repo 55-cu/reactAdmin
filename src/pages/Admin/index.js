@@ -16,7 +16,7 @@ class Admin extends Component {
     show: false,
     administrator: '',
     page: '1',
-    pageSize: '5',
+    pageSize: '100',
     imgSrc: '',
     name: '',
     locationList:''
@@ -86,7 +86,8 @@ class Admin extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal ? <Modal></Modal> : ''}
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className={style.logo}></div>
+          <div className={style.logo}>
+          </div>
           <Nav></Nav>
         </Sider>
         <Layout className="site-layout">
@@ -111,15 +112,24 @@ class Admin extends Component {
           <Content >
             {/*cy修改*/}
             <Breadcrumb style={{ margin: '16px 20px 16px' }}>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/home`}>
+              <Icon type={"setting"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[1]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}`}>
+              <Icon type={"sync"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[2]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item>{
+              {this.props.location.pathname.split('/')[3]?
+                <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
+                <Icon type={"loading"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[3]
-              }</Breadcrumb.Item>
+              }</Breadcrumb.Item>:null
+              }
+          
 
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>

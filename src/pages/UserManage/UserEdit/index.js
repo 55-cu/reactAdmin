@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Card,Input,Select,Button,Avatar,Popconfirm} from 'antd';
 import style from './index.module.less';
 import UserApi from '../../../api/userManage';
-import Modal from '../../tokenModal';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
@@ -35,11 +34,10 @@ class UserEdit extends Component{
         this.props.history.push('/admin/user/userlist')
     }
     render(){
-        let {tokenModal} =this.props
         return(
+            
             <div>
             <Card title='用户信息编辑'>
-            {tokenModal?<Modal></Modal>:null}
             <p className={style.message}>编辑用户名</p>
             <Input value={this.state.name} onChange={(e)=>{
                 this.setState({name:e.target.value})
