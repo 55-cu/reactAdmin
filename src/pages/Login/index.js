@@ -13,7 +13,7 @@ class Login extends Component {
       } else {
         // 用户名和密码正确
         LoginApi.login(data).then(res => {
-          console.log('res',res)
+          // console.log('res',res)
           if (res.err === -1) {
             message.error("用户名或密码错误，请重试！");
           } else {

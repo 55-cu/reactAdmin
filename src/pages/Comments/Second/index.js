@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin,} from 'antd'
+import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin} from 'antd'
 import XLSX from "xlsx"
 
 import style from './second.module.less'
@@ -96,7 +96,8 @@ class First extends Component {
     note:null,
     id:'',
     up:false,
-    methods:''
+    methods:'',
+    leavel:''
   };
   //解析时间
   getTime=(time)=>{
@@ -117,11 +118,13 @@ class First extends Component {
   }
   //新加
   addSecond=async ()=>{
+    if(this.state.leavel==='admin'){return message.warning('权限不足')}
     this.setState({visible:true,methods:'新建'})
   }
   //编辑
   updateSecond=async (_id)=>{
     let result =await this.getDataById(_id)
+    if(!result.list){return}
     let {name,desc,img,from_id} = result.list[0]
     //将数据写入表单，让模态框显示
     this.props.form.setFieldsValue({
@@ -130,7 +133,6 @@ class First extends Component {
       img,
       from_id,
     });
-    console.log(result)
     this.setState({visible:true,id:_id,methods:'编辑',img})
   }
   //确认新加
@@ -173,6 +175,10 @@ class First extends Component {
   };
   //声明周期获取数据
   async componentDidMount(){
+    if(localStorage.getItem('user')){
+      let value = JSON.parse(localStorage.getItem('user'))
+      this.setState({leavel:value.leavel})
+    }
     this.getListData()
   }
   // 获取热门话题数据
@@ -219,7 +225,7 @@ class First extends Component {
     if(!file){ return message.error('请先选择一张图片')}
     // 图片的验证
     let {size,type} = file 
-    console.log(type)
+    // console.log(type)
     let types = ['jpg',"jpeg",'gif','png']
     if(size>1000000){ return message.warning('图片超过1m')}
     if(types.indexOf(type.split('/')[1])===-1){ return message.warning('只允许jpg.jpeg,gif,png四种类型')}

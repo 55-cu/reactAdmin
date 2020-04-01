@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import style from './index.module.less';
 import LazyLoad from 'react-lazyload';
-import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin, Modal} from 'antd';
+import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin} from 'antd';
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
@@ -23,7 +23,7 @@ class UserList extends Component{
     getUserData = async()=>{
         let {page,pageSize} =this.state
         let {list,msg,err,allCount} =await UserApi.userQuery({page,pageSize})
-        console.log(list)
+        // console.log(list)
         if(err !==0){ return message.error(msg)}
         let result=list.map((item,index)=>{
             return {
@@ -170,12 +170,6 @@ class UserList extends Component{
                 align:'center',
                 //图片路径
                 render:(avator)=>{
-                  // let result = avator
-                  // if(avator !== ''){
-                  //   if(avator.indexOf('base64')===-1){
-                  //     result = rootpath+avator
-                  //   }
-                  //   }
                     return (
                       <LazyLoad>
                         <img  src={avator} alt='暂无图片' width='80' height='80'/>
@@ -198,7 +192,7 @@ class UserList extends Component{
                 // width:200,
                 // fixed:'right',
                 align:'center',
-                render:(text, record, index)=>{
+                render:(record)=>{
                     return(
                     <div>
                     <Popconfirm title='你确定要删除该用户吗?' onConfirm={()=>{
@@ -210,7 +204,7 @@ class UserList extends Component{
                     </Popconfirm>
                     <Button type='primary' size='small' className={style.change}
                     onClick={()=>{
-                      console.log(record)
+                      // console.log(record)
                       this.props.history.push({pathname:'/admin/user/useredit',state:{
                         _id:record._id,
                         name:record.name,

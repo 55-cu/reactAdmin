@@ -37,11 +37,10 @@ class Admin extends Component {
     let { page, pageSize } = this.state
     userManage.userQuery({ page, pageSize }).then((res) => {
       let { _id } = JSON.parse(localStorage.getItem('user'))
-      res.list.map((item, index) => {
+      res.list.forEach((item) => {
         let id = item._id
         if (id === _id) {
           this.setState({ imgSrc: item.img, name: item.user })
-          console.log(this.state.imgSrc)
         }
       })
     })
@@ -50,7 +49,7 @@ class Admin extends Component {
     if (localStorage.getItem('user')) {
       let result = JSON.parse(localStorage.getItem('user'))
       this.setState({ user: result.user })
-      console.log(result.leavel)
+      // console.log(result.leavel)
       if (result.leavel === 'root') {
         this.setState({ administrator: 1 })
       }
@@ -98,9 +97,9 @@ class Admin extends Component {
             <div className={style.right}>
 
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
-                <a className="ant-dropdown-link" >
+                <span className={style.headerBtn} >
                   {administrator === 1 ? '超级管理员' : '会员'}<Icon type="down" />
-                </a>
+                </span>
                 {/* <span className={style.headerBtn} >
                 {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
                 </span> */}
