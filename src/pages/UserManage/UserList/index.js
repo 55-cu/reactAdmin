@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import style from './index.module.less';
 import LazyLoad from 'react-lazyload';
 import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,Spin, Modal} from 'antd';
-import tokenModal from '../../tokenModal';
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
@@ -145,7 +144,6 @@ class UserList extends Component{
           XLSX.writeFile(wb,'小鸡用户.xlsx')
             }
     render(){
-      let {tokenModal} =this.props;
         const  columns=[
             {
                 title: 'ID',
@@ -179,7 +177,7 @@ class UserList extends Component{
                   //   }
                   //   }
                     return (
-                      <LazyLoad src="./logo.png">
+                      <LazyLoad>
                         <img  src={avator} alt='暂无图片' width='80' height='80'/>
                       </LazyLoad>
                     )
@@ -230,60 +228,58 @@ class UserList extends Component{
         ]
         return(
             <div className={style.box}>
-           {tokenModal?<tokenModal></tokenModal>:null}
-            <Card title='小鸡词典用户' className={style.card}>
-            <Button type='primary' className={style.export} onClick={()=>{
-          if(this.state.loading) {return false}
-          let thead=columns.map((item)=>{
-              return item.title
-          })
-          let list=this.state.data.map((item)=>{
-              let arr =[]
-              for(const key in item){
-                  if(key !== 'key'){
-                    arr.push(item[key])
-                }
-              }
-              return arr
-          })
-          let result = [thead,...list]
-          let sheet=XLSX.utils.aoa_to_sheet(result);
-          let wb=XLSX.utils.book_new()
-          XLSX.utils.book_append_sheet(wb,sheet)
-          XLSX.writeFile(wb,'小鸡用户.xlsx')
-
-            }}>
-                导出用户表格
-            </Button>
-            {this.state.delSign?(
-            <Alert
-            message="无法删除"
-            type="error"
-            closable='true'
-            className={style.alert}
-            onClose={()=>{
-                this.setState({delSign:false})
-            }}
-          />):null}
-          <Spin tip="Loading..." spinning={this.state.loading}>
-          <Table columns={columns} dataSource={this.state.data} 
-            scroll={{x:'max-content'}} 
-            rowKey='_id' pagination={false}
-            bordered={true}
-            />
-          </Spin>
-          <div className={style.page}>
-          <Pagination current={this.state.page} total={this.state.count} showQuickJumper pageSize={this.state.pageSize}
-            onChange={(page,pageSize)=>{
-                this.setState({page,loading:true},()=>{
-                    this.getUserData()
-                })
-            }}
-            defaultCurrent={1}
-            />
-          </div>
-            </Card>
-
+                       <Card title='小鸡词典用户' className={style.card}>
+                       <Button type='primary' className={style.export} onClick={()=>{
+                     if(this.state.loading) {return false}
+                     let thead=columns.map((item)=>{
+                         return item.title
+                     })
+                     let list=this.state.data.map((item)=>{
+                         let arr =[]
+                         for(const key in item){
+                             if(key !== 'key'){
+                               arr.push(item[key])
+                           }
+                         }
+                         return arr
+                     })
+                     let result = [thead,...list]
+                     let sheet=XLSX.utils.aoa_to_sheet(result);
+                     let wb=XLSX.utils.book_new()
+                     XLSX.utils.book_append_sheet(wb,sheet)
+                     XLSX.writeFile(wb,'小鸡用户.xlsx')
+           
+                       }}>
+                           导出用户表格
+                       </Button>
+                       {this.state.delSign?(
+                       <Alert
+                       message="无法删除"
+                       type="error"
+                       closable='true'
+                       className={style.alert}
+                       onClose={()=>{
+                           this.setState({delSign:false})
+                       }}
+                     />):null}
+                     <Spin tip="Loading..." spinning={this.state.loading}>
+                     <Table columns={columns} dataSource={this.state.data} 
+                       scroll={{x:'max-content'}} 
+                       rowKey='_id' pagination={false}
+                       bordered={true}
+                       />
+                     </Spin>
+                     <div className={style.page}>
+                     <Pagination current={this.state.page} total={this.state.count} showQuickJumper pageSize={this.state.pageSize}
+                       onChange={(page,pageSize)=>{
+                           this.setState({page,loading:true},()=>{
+                               this.getUserData()
+                           })
+                       }}
+                       defaultCurrent={1}
+                       />
+                     </div>
+                       </Card>           
             </div>
         )
     }

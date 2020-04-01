@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom'
 import Nav from '../../components/Nav'
 import Modal from '../tokenModal'
 import style from './admin.module.less'
-import { Layout, Breadcrumb, Button, Dropdown, Menu, Icon } from 'antd';
+import { Layout, Breadcrumb, Button, Dropdown, Menu, Icon, Avatar } from 'antd';
 import { connect } from 'react-redux'
-
+import userManage from '../../api/userManage'
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -15,6 +15,10 @@ class Admin extends Component {
     user: '',
     show: false,
     administrator: '',
+    page: '1',
+    pageSize: '100',
+    imgSrc: '',
+    name: '',
     locationList:''
   };
 
@@ -25,10 +29,22 @@ class Admin extends Component {
     this.props.history.push('/login')
     localStorage.removeItem('token')
   }
-  changeUl=()=>{
-    this.setState({visiable:true })
+  changeUl = () => {
+    this.setState({ visiable: true })
   }
   componentDidMount() {
+    // 获取头像和_id
+    let { page, pageSize } = this.state
+    userManage.userQuery({ page, pageSize }).then((res) => {
+      let { _id } = JSON.parse(localStorage.getItem('user'))
+      res.list.map((item, index) => {
+        let id = item._id
+        if (id === _id) {
+          this.setState({ imgSrc: item.img, name: item.user })
+          console.log(this.state.imgSrc)
+        }
+      })
+    })
     // console.log(window.location.hash)
     //获取用户名
     if (localStorage.getItem('user')) {
@@ -55,7 +71,9 @@ class Admin extends Component {
     const menu = (
       <Menu>
         <Menu.Item key='1'>
-          <Button onClick={this.changeUl}>个人中心</Button>
+          {/* <Button onClick={this.changeUl}>个人中心</Button> */}
+          <Avatar src={this.state.imgSrc}></Avatar>
+          <span style={{ margin: '0 10px' }}>{this.state.name}</span>
         </Menu.Item>
         <Menu.Item key='2' >
           <Button onClick={this.toLogin}>退出登录</Button>
@@ -68,7 +86,8 @@ class Admin extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal ? <Modal></Modal> : ''}
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className={style.logo}></div>
+          <div className={style.logo}>
+          </div>
           <Nav></Nav>
         </Sider>
         <Layout className="site-layout">
@@ -77,28 +96,40 @@ class Admin extends Component {
               <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
             </div> */}
             <div className={style.right}>
-              
+
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
-                <span className={style.headerBtn} >
+                <a className="ant-dropdown-link" >
+                  {administrator === 1 ? '超级管理员' : '会员'}<Icon type="down" />
+                </a>
+                {/* <span className={style.headerBtn} >
                 {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
-                </span>
+                </span> */}
               </Dropdown>}
-             
+
             </div>
             {/* <Button type="link" onClick={this.toLogin} className={style.login}>登录</Button> */}
           </Header>
           <Content >
             {/*cy修改*/}
             <Breadcrumb style={{ margin: '16px 20px 16px' }}>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/home`}>
+              <Icon type={"setting"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[1]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}`}>
+              <Icon type={"sync"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[2]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item>{
+              {this.props.location.pathname.split('/')[3]?
+                <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
+                <Icon type={"loading"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[3]
-              }</Breadcrumb.Item>
+              }</Breadcrumb.Item>:null
+              }
+          
 
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
