@@ -62,25 +62,26 @@ class Admin extends Component {
         </Menu.Item>
       </Menu>)
     let { tokenModal } = this.props
+    // console.log(tokenModal)
     let { show, administrator } = this.state
     return (
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal ? <Modal></Modal> : ''}
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className={style.logo}>Logo</div>
+          <div className={style.logo}></div>
           <Nav></Nav>
         </Sider>
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
-            <div className={style.headerDiv}>
+            {/* <div className={style.headerDiv}>
               <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
-            </div>
+            </div> */}
             <div className={style.right}>
               
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
-                <a className="ant-dropdown-link" >
-                {administrator === 1 ? '超级管理员' : '会员'}<Icon type="down" />
-                </a>
+                <span className={style.headerBtn} >
+                {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
+                </span>
               </Dropdown>}
              
             </div>
