@@ -192,7 +192,7 @@ class UserList extends Component{
                 // width:200,
                 // fixed:'right',
                 align:'center',
-                render:(record)=>{
+                render:(text,record,index)=>{
                     return(
                     <div>
                     <Popconfirm title='你确定要删除该用户吗?' onConfirm={()=>{
