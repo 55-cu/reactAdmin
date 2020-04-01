@@ -5,7 +5,7 @@ class dicFirst {
         return axios.post(url,payload)
     }
     delFirst(payload){
-        let url = '/chick/admin/discuss/delmain'
+        let url = '/chick/admin/discuss/delPrimary'
         return axios.post(url,payload)
     }
     findFirst(payload){

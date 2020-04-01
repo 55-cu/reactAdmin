@@ -16,7 +16,7 @@ class Admin extends Component {
     show: false,
     administrator: '',
     page: '1',
-    pageSize: '5',
+    pageSize: '100',
     imgSrc: '',
     name: '',
     locationList:''
@@ -37,11 +37,10 @@ class Admin extends Component {
     let { page, pageSize } = this.state
     userManage.userQuery({ page, pageSize }).then((res) => {
       let { _id } = JSON.parse(localStorage.getItem('user'))
-      res.list.map((item, index) => {
+      res.list.forEach((item) => {
         let id = item._id
         if (id === _id) {
           this.setState({ imgSrc: item.img, name: item.user })
-          console.log(this.state.imgSrc)
         }
       })
     })
@@ -50,7 +49,7 @@ class Admin extends Component {
     if (localStorage.getItem('user')) {
       let result = JSON.parse(localStorage.getItem('user'))
       this.setState({ user: result.user })
-      console.log(result.leavel)
+      // console.log(result.leavel)
       if (result.leavel === 'root') {
         this.setState({ administrator: 1 })
       }
@@ -86,7 +85,8 @@ class Admin extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         {tokenModal ? <Modal></Modal> : ''}
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className={style.logo}></div>
+          <div className={style.logo}>
+          </div>
           <Nav></Nav>
         </Sider>
         <Layout className="site-layout">
@@ -97,9 +97,9 @@ class Admin extends Component {
             <div className={style.right}>
 
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
-                <a className="ant-dropdown-link" >
+                <span className={style.headerBtn} >
                   {administrator === 1 ? '超级管理员' : '会员'}<Icon type="down" />
-                </a>
+                </span>
                 {/* <span className={style.headerBtn} >
                 {administrator === 1 ? '超级管理员' : '普通管理员'}<Icon type="down" />
                 </span> */}
@@ -111,15 +111,24 @@ class Admin extends Component {
           <Content >
             {/*cy修改*/}
             <Breadcrumb style={{ margin: '16px 20px 16px' }}>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/home`}>
+              <Icon type={"setting"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[1]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item >{
+              <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}`}>
+              <Icon type={"sync"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[2]
               }</Breadcrumb.Item>
-              <Breadcrumb.Item>{
+              {this.props.location.pathname.split('/')[3]?
+                <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
+                <Icon type={"loading"} style={{marginRight:"5px"}}/>
+                {
                 this.props.location.pathname.split('/')[3]
-              }</Breadcrumb.Item>
+              }</Breadcrumb.Item>:null
+              }
+          
 
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>

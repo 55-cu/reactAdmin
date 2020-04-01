@@ -20,7 +20,7 @@ class Comments {
   }
   //根据id获取数据
   getData(payload){
-    let url='/chick/admin/discuss/getSecond'
+    let url='/chick/admin/discuss/infoByFirst '
     return axios.post(url,payload)
   }
 }

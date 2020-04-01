@@ -8,7 +8,7 @@ class DicAdd extends Component {
    state = {
       "name": "",
       "desc": '',
-      "img": "",
+      "img": '',
       "topic": "",
       "creator": '',
       "comments": 0,
@@ -42,10 +42,11 @@ class DicAdd extends Component {
    upload = async () => {
       // 1. 获取图片里的内容
       let file = this.refs.img.files[0]
-      console.log(file)
+      // console.log(file)
       if (!file) { return message.error('请先选择一张图片') }
       // 图片的验证
       let { size, type } = file
+      // console.log(type)
       let types = ['jpg', "jpeg", 'gif', 'png']
       if (size > 1000000) { return message.warning('图片超过1m') }
       if (types.indexOf(type.split('/')[1]) === -1) { return message.warning('只允许jpg.jpeg,gif,png四种类型') }
@@ -53,16 +54,15 @@ class DicAdd extends Component {
       //  将图片转化为formdata 
       let data = new FormData()
       data.append('hehe', file)
-      //console.log('哈哈哈', data.get('hehe'))
-      let { code, msg, path} = await dicManage.img(data)
+      let { code, msg, path } = await dicManage.img(data)
+      // console.log(path)
       if (code) { return message.error(msg) }
       this.setState({ img: 'http://39.99.195.178:3000' + path })
-      //console.log(this.state.img)
    }
    render() {
       //console.log( this.props.form)
       let { getFieldDecorator } = this.props.form;
-      let { desc, topic, name, img, creator, comments, likes } = this.state
+      let {  img,  comments, likes } = this.state
       return (
          <div className={style.box}>
             <Card title='添加词典' className={style.card}>

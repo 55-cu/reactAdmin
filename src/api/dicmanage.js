@@ -25,11 +25,14 @@ class Dicmanage {
     let url = '/chick/admin/dict/del'
     return axios.post(url, { _id })
   }
-  dicUpdate(_id, updateInfo) {
+  dicUpdate(payload) {
     let url = '/chick/admin/dict/update'
-    return axios.post(url, { _id, updateInfo })
+    return axios.post(url, payload)
   }
-
+  getDataId(payload) {
+    let url = '/chick/admin/dict/info'
+    return axios.post(url, payload)
+  }
   img(payload) {
     let url = '/chick/admin/upload/img'
     return axios.post(url, payload)

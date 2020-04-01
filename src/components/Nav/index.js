@@ -10,7 +10,6 @@ class Nav extends Component {
   }
   //点击事件
   handleClick = e => {
-    // console.log(this,e)
     let {path} = e.item.props 
     this.props.history.replace(path)
   
@@ -52,6 +51,8 @@ class Nav extends Component {
         return 'container'
       case 'dicmanage':
         return 'read'
+      case 'comments':
+        return 'message'
       default:
         return 'global'
     }

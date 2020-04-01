@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin,} from 'antd'
+import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin} from 'antd'
 import XLSX from "xlsx"
 
 import style from './second.module.less'
@@ -8,6 +8,7 @@ import dicManage from '../../../api/dicmanage.js'
 //图片懒加载
 import LazyLoad from 'react-lazyload';
 const { TextArea } = Input;
+const { Search } = Input;
 class First extends Component {
   state = {
     img:'',
@@ -86,7 +87,7 @@ class First extends Component {
         }
       }
     ],
-    data:[],
+    list:null,
     page:1,
     pageSize:9,
     count:0,
@@ -96,7 +97,8 @@ class First extends Component {
     note:null,
     id:'',
     up:false,
-    methods:''
+    methods:'',
+    leavel:''
   };
   //解析时间
   getTime=(time)=>{
@@ -117,12 +119,15 @@ class First extends Component {
   }
   //新加
   addSecond=async ()=>{
+    if(this.state.leavel==='admin'){return message.warning('权限不足')}
     this.setState({visible:true,methods:'新建'})
   }
   //编辑
   updateSecond=async (_id)=>{
     let result =await this.getDataById(_id)
-    let {name,desc,img,from_id} = result.list[0]
+    if(!result.list){return}
+    console.log(result)
+    let {name,desc,img,from_id} = result.list.result
     //将数据写入表单，让模态框显示
     this.props.form.setFieldsValue({
       creator:name,
@@ -130,7 +135,6 @@ class First extends Component {
       img,
       from_id,
     });
-    console.log(result)
     this.setState({visible:true,id:_id,methods:'编辑',img})
   }
   //确认新加
@@ -173,6 +177,10 @@ class First extends Component {
   };
   //声明周期获取数据
   async componentDidMount(){
+    if(localStorage.getItem('user')){
+      let value = JSON.parse(localStorage.getItem('user'))
+      this.setState({leavel:value.leavel})
+    }
     this.getListData()
   }
   // 获取热门话题数据
@@ -180,7 +188,7 @@ class First extends Component {
     let {page,pageSize}  = this.state
     let {err,list} = await commentsApi.findSecondList({page,pageSize})
     if(err !== 0){ return }
-    this.setState({data:list.result,count:list.allCount,loading:false})
+    this.setState({list:list.result,count:list.allCount,loading:false})
   }
   //导出excel文件
   export=async ()=>{
@@ -219,7 +227,7 @@ class First extends Component {
     if(!file){ return message.error('请先选择一张图片')}
     // 图片的验证
     let {size,type} = file 
-    console.log(type)
+    // console.log(type)
     let types = ['jpg',"jpeg",'gif','png']
     if(size>1000000){ return message.warning('图片超过1m')}
     if(types.indexOf(type.split('/')[1])===-1){ return message.warning('只允许jpg.jpeg,gif,png四种类型')}
@@ -231,9 +239,23 @@ class First extends Component {
     if(code){ return message.error(msg)}
     this.setState({img:'http://39.99.195.178:3000'+path})
   }
+  //id搜索
+  kwSearch=async (e)=>{
+    this.setState({loading:true})
+    let {page,pageSize}  = this.state
+    let {id}  = this.state
+    let {err,list} = await commentsApi.getData({from_id:e,page,pageSize})
+    console.log({from_id:e})
+    console.log(id)
+    console.log(e)
+    console.log(commentsApi.getData({e}))
+    if(err !== 0){ return }
+    this.setState({list:list,loading:false})
+    message.success('ID搜索完成')
+  }
 
   render() {
-    let {columns,data,page,pageSize,count,loading,visible,confirmLoading,img,methods} = this.state
+    let {columns,list,page,pageSize,count,loading,visible,confirmLoading,img,methods} = this.state
     //表单配置
     const { getFieldDecorator } = this.props.form;
 
@@ -267,8 +289,11 @@ class First extends Component {
         <div className={style.wrapper}>
           <Button type="primary" onClick={this.addSecond} >新建</Button>
           <Button type="primary" className={style.btn} onClick={this.export}>导出</Button>
+            <div>
+              <Search placeholder="ID搜索" onSearch={this.kwSearch} enterButton style={{width:300,marginTop:20}}/>
+            </div>
           <Spin tip="Loading..." spinning={loading}>
-            <Table bordered columns={columns} dataSource={data} rowKey='_id' pagination={false} className={style.table}/>
+            <Table bordered columns={columns} dataSource={list} rowKey='_id' pagination={false} className={style.table}/>
           </Spin>
         </div>
         <Pagination showQuickJumper className={style.page} current={page}  total={count} pageSize={pageSize}

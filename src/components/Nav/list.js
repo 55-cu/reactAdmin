@@ -154,13 +154,13 @@ export default {
           key:'6-1',
           title:'一级评论',
           path:'/admin/comments/first',
-          icon:''
+          icon:'comments'
         },
         {
           key:'6-2',
           title:'二级评论',
           path:'/admin/comments/second',
-          icon:'line'
+          icon:'comments'
         },
       ]
     },
