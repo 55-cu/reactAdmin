@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
-import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination } from 'antd'
+import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination,Avatar} from 'antd'
 import disFirst from '../../../api/dicFirst'
 import dicmanage from '../../../api/dicmanage'
 import LazyLoad from 'react-lazyload';
@@ -23,7 +23,7 @@ class Discuss extends Component {
             { title: '头像', dataIndex: 'img', key: 'img',render:(img)=>{
                 return (
                     <LazyLoad width={120}>
-                        <img src={img} style={{width:'120px'}} alt="缩略图"/>
+                        <Avatar src={img} width='60' height='60' type="circle" alt="缩略图"/>
                     </LazyLoad>
                 )
             } },
@@ -195,6 +195,7 @@ class Discuss extends Component {
                         dataSource={dataSource}
                         pagination={false}
                         rowKey='_id'
+                        bordered
                         >
                         </Table>
                     </Spin>
