@@ -92,7 +92,7 @@ class Admin extends Component {
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
             <div className={style.headerDiv}>
-              <h1 className={style.headerBg}></h1>
+              <div className={style.headerBg}></div>
             </div>
             <div className={style.right}>
 
