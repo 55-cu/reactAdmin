@@ -18,17 +18,11 @@ class DicUpdate extends Component {
  //修改词典数据
  DicUpdate= async ()=>{
    let {id} =  this.props.match.params
-   console.log( this.props)
-   console.log(this.props.match.params)
-   console.log( this.state)
-    let {err,msg} = await dicManage.dicUpdate(id,this.state)
-    if(err===-1){
-        return message.error(msg)
-    }
-    else{
-      this.props.history.replace('/admin/dicmanage/dicinfo')
+    let {err} = await dicManage.dicUpdate(id,this.state)
+    this.props.history.replace('/admin/dicmanage/dicinfo')
+    if(err===0){
       return message.success('修改成功，跳回列表页')
-    }  
+    }
   }
     
  upload= async ()=>{

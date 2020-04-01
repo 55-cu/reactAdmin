@@ -10,7 +10,7 @@ class Nav extends Component {
   }
   //点击事件
   handleClick = e => {
-    // console.log(this,e)
+    console.log(this,e)
     let {path} = e.item.props 
     this.props.history.replace(path)
   

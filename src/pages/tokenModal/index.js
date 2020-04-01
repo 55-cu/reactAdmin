@@ -7,11 +7,9 @@ class TokenModal extends Component {
     return (
       <div className={style.wrapper}>
         <div className={style.info}>
-          <div className={style.icon}>
-            <Icon type="sound" theme="twoTone" /> 
-          </div>
-          <div className={style.content}>
-            <span>您的token已失效，请</span><Button type="link" size="large" onClick={()=>{
+          <Icon type="sound" theme="twoTone" /> 
+          <div>
+            <span>您的token已失效，请</span><Button type="link" size="small" onClick={()=>{
               this.props.history.replace('/login')
             }}>登录</Button>
           </div>
