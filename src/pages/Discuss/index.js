@@ -10,7 +10,7 @@ class Discuss extends Component {
         img:'',
         dataSource: [],
         page: 1,
-        pageSize: 10,
+        pageSize: 20,
         visible: false,
         columns: [
             { title: '主词条id', dataIndex: 'from_id', key: 'from_id' },
