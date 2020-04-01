@@ -88,7 +88,7 @@ class First extends Component {
     ],
     data:[],
     page:1,
-    pageSize:9,
+    pageSize:3,
     count:0,
     loading:true,
     username:'',
@@ -341,7 +341,7 @@ class First extends Component {
               })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
             <Form.Item {...tailFormItemLayout} >
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" >
                 确认
               </Button>
             </Form.Item>

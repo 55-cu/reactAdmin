@@ -92,9 +92,9 @@ class Admin extends Component {
         </Sider>
         <Layout className="site-layout">
           <Header className={style.header} style={{ padding: 0 }}>
-            {/* <div className={style.headerDiv}>
-              <h1 style={{ float: "left", color: '#fff' }}>小鸡词典</h1>
-            </div> */}
+            <div className={style.headerDiv}>
+              <div className={style.headerBg}></div>
+            </div>
             <div className={style.right}>
 
               {!show || <Dropdown overlay={menu} className={style.Dropdown}>
@@ -124,7 +124,7 @@ class Admin extends Component {
               }</Breadcrumb.Item>
               {this.props.location.pathname.split('/')[3]?
                 <Breadcrumb.Item href={`http://localhost:3000/admin#/admin/${this.props.location.pathname.split('/')[2]}/${this.props.location.pathname.split('/')[3]}`}>
-                <Icon type={"loading"} style={{marginRight:"5px"}}/>
+                <Icon type={"tag"} style={{marginRight:"5px"}}/>
                 {
                 this.props.location.pathname.split('/')[3]
               }</Breadcrumb.Item>:null

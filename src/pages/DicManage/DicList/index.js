@@ -15,7 +15,7 @@ class DicList extends Component {
      {title:'_id', dataIndex:'_id',key:'_id', width :220},
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
-     {title:'图片', dataIndex:'img',key:'path',render:(img)=>{
+     {title:'图片', dataIndex:'img',key:'img',render:(img)=>{
       return(<img width ='80' height='80'src={img} alt="缩略图"/>)
      } },
      {title:'描述', dataIndex:'desc',key:'desc' },

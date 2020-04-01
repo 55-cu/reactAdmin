@@ -5,8 +5,8 @@ import { Table, Input, Button, Icon, Pagination ,Card, message,Popconfirm,Alert,
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx'
 import UserApi from '../../../api/userManage'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+// import { withRouter } from 'react-router-dom'
+// import { connect } from 'react-redux'
 // let rootpath = 'http://39.99.195.178:3000'
 class UserList extends Component{
     state={
@@ -187,12 +187,11 @@ class UserList extends Component{
               },
               {
                 title: '操作',
-                dataIndex: 'handle',
                 key: 'handle',
                 // width:200,
                 // fixed:'right',
                 align:'center',
-                render:(record)=>{
+                render:(text,record,index)=>{
                     return(
                     <div>
                     <Popconfirm title='你确定要删除该用户吗?' onConfirm={()=>{
@@ -278,5 +277,5 @@ class UserList extends Component{
         )
     }
 }
-export default connect(state => state)(withRouter(UserList));
-// export default UserList;
+// export default connect(state => state)(withRouter(UserList));
+export default UserList;
