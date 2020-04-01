@@ -113,6 +113,7 @@ class Discuss extends Component {
         let {selValue}=this.state
         if(selValue !== '请选择词条id'){
             let result = await disFirst.getDataById({from_id:selValue})
+            console.log(result)
             let {list,err} = result
             if(!list){return}
             if(err === 0){

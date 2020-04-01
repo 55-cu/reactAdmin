@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Pagination,Card,message,Table,Button,Popconfirm,Spin, Icon} from 'antd'
+import {Pagination,Card,message,Table,Button,Popconfirm,Spin,Input} from 'antd'
 import style from './index.module.less'
 import dicManage from '../../../api/dicmanage'
 import XLSX from 'xlsx'
+const { Search } = Input
 class DicList extends Component {
  state={
    spinning:true,
@@ -81,6 +82,10 @@ class DicList extends Component {
     if(err===-1){
         return message.error(msg)
     }
+    else if(list==''){
+    message.error('暂无数据')
+    this.setState({list,count:allCount})
+    }
     this.setState({list,count:allCount})
  }
  //  导出全部商品
@@ -114,12 +119,16 @@ class DicList extends Component {
 
            <div className={style.button}>
            <div>
-           <Icon type='search' onClick={()=>{
+           {/* <Icon type='search' onClick={()=>{
               this.getDicDataByKw(kw,page,pageSize)
-           }}></Icon> 
-             <input type='text'  placeholder='关键字查询' className={style.input} value={kw} onChange={(e)=>{
+           }}></Icon>  */}
+           <Search   enterButton="Search" size="large" placeholder='关键字查询'onSearch={this.getDicDataByKw} 
+            value={kw} onChange={(e)=>{
               this.setState({kw:e.target.value})
            }}/>
+             {/* <Input type='text'  placeholder='关键字查询' className={style.input} value={kw} onChange={(e)=>{
+              this.setState({kw:e.target.value})
+           }}/> */}
            </div>
            <div>
            <Button type='primary' onClick={()=>{
