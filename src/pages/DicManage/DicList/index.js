@@ -3,10 +3,9 @@ import {Pagination,Card,message,Table,Button,Popconfirm,Spin, Icon} from 'antd'
 import style from './index.module.less'
 import dicManage from '../../../api/dicmanage'
 import XLSX from 'xlsx'
-let rootPath = 'http://39.95.178.1:3000'
 class DicList extends Component {
  state={
-   spinning:false,
+   spinning:true,
    page:1,
    pageSize:5,
    list:[],
@@ -16,11 +15,8 @@ class DicList extends Component {
      {title:'_id', dataIndex:'_id',key:'_id', width :220},
      {title:'名称', dataIndex:'name',key:'name' },
      {title:'话题', dataIndex:'topic',key:'topic' },
-     {title:'图片', dataIndex:'path',key:'path',render:(path)=>{
-       console.log(path)
-      let result =rootPath+path
-      console.log(result)
-      return(<img width ='80' height='80'src={result} alt="缩略图"/>)
+     {title:'图片', dataIndex:'img',key:'path',render:(img)=>{
+      return(<img width ='80' height='80'src={img} alt="缩略图"/>)
      } },
      {title:'描述', dataIndex:'desc',key:'desc' },
      {title:'评论数', dataIndex:'comments',key:'comments', defaultSortOrder: 'descend',
@@ -33,7 +29,7 @@ class DicList extends Component {
         <div>
           <Popconfirm title='你确定要删除该商品嘛?'
           onConfirm={()=>{
-            console.log(record)
+            // console.log(record)
             this.delDic(record._id)}}
           onCancel={()=>{
             message.error('取消删除');
@@ -43,8 +39,11 @@ class DicList extends Component {
           </Popconfirm><br/><br/>
                 <Button type='primary' size='small'
                 onClick={()=>{
-                  console.log(record)
-                  this.props.history.replace('/admin/dicmanage/dicupdate/'+record._id)
+                  if(localStorage.getItem('user')){
+                    let leavel = JSON.parse(localStorage.getItem('user')).leavel
+                    if(leavel=== 'admin'){return message.warning('权限不足')}
+                    this.props.history.replace('/admin/dicmanage/dicupdate/'+record._id)
+                  }
                 }}
                 >修改</Button>  
            </div>
@@ -58,11 +57,13 @@ class DicList extends Component {
   }
  //删除词典
  delDic= async (_id)=>{
+   this.setState({spinning:true})
     let {err} = await dicManage.dicDel(_id)
     if(err=== 0){
       this.getDicData()
       return message.success('删除成功')
     }
+    this.setState({spinning:false})
  }
  //获取词典数据
  getDicData= async ()=>{
@@ -98,7 +99,7 @@ class DicList extends Component {
 
   // 将数据合并为数组 
   let result = [thead,...data]
-  console.log(result)
+  // console.log(result)
   //导出
   let  sheet = XLSX.utils.aoa_to_sheet(result) 
   let  wb =XLSX.utils.book_new()

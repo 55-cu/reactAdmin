@@ -70,6 +70,7 @@ class Hot extends Component {
         message.warning('删除成功')
         this.getListData()
       }
+      this.setState({loading:false})
     })
   }
   //确认编辑
@@ -91,6 +92,7 @@ class Hot extends Component {
   }
   //确认修改
   handleSubmit = () => {
+    this.setState({loading:false})
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({loading:false})

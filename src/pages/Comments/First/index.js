@@ -1,8 +1,8 @@
 import React from 'react'
 import { Component } from 'react'
-import { Card, Table, Button, Popconfirm, message, Modal, Form, Input } from 'antd'
-import disFirst from '../../api/dicFirst'
-import dicmanage from '../../api/dicmanage'
+import { Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination } from 'antd'
+import disFirst from '../../../api/dicFirst'
+import dicmanage from '../../../api/dicmanage'
 import LazyLoad from 'react-lazyload';
 
 class Discuss extends Component {
@@ -10,8 +10,10 @@ class Discuss extends Component {
         img:'',
         dataSource: [],
         page: 1,
-        pageSize: 20,
+        pageSize: 3,
         visible: false,
+        loading:true,
+        count:1,
         columns: [
             { title: '主词条id', dataIndex: 'from_id', key: 'from_id' },
             { title: '评论者', dataIndex: 'name', key: 'name' },
@@ -33,8 +35,8 @@ class Discuss extends Component {
                                     message.error('取消删除')
                                 }}
                                 onConfirm={() => {
-                                    console.log(recode.from_id)
-                                    this.del(recode.from_id)
+                                    let _id = recode._id
+                                    this.del(_id)
                                 }}
                             >
                                 <Button type='danger' size='small'>删除</Button>
@@ -56,13 +58,15 @@ class Discuss extends Component {
             }
         ]
     }
-    del = (id) => {
-        disFirst.delFirst(id).then((res) => {
-            console.log(res)
+    del = (_id) => {
+        this.setState({loading:true})
+        disFirst.delFirst({_id}).then((res) => {
             let { page, pageSize } = this.state
             if (res.err === 0) {
                 this.refersh(page, pageSize)
+                message.success('删除成功')
             }
+            this.setState({loading:false})
         })
     }
 
@@ -70,7 +74,7 @@ class Discuss extends Component {
         let file = this.refs.img.files[0]
         if(!file){return message.error('请先选择一张图片')}
         let {size,type} = file
-        console.log(type)
+        // console.log(type)
         let types = ['jpg',"jpeg",'gif','png']
         if(size>1000000){return message.warning('图片超过1M')}
         if(types.indexOf(type.split('/')[1])===-1){return message.warning('只允许jpg.jpeg,gif,png四种类型')}
@@ -83,10 +87,10 @@ class Discuss extends Component {
         this.setState({img:'http://39.99.195.178:3000'+path})
     }
     refersh = (page, pageSize) => {
-        console.log(page, pageSize)
+        // console.log(page, pageSize)
         disFirst.findFirst({ page, pageSize }).then((res) => {
-            console.log(res)
-            this.setState({ dataSource: res.list.result })
+            if(!res.list){return}
+            this.setState({ dataSource: res.list.result,loading:false,count:res.list.allCount })
         })
     }
     componentDidMount() {
@@ -95,30 +99,31 @@ class Discuss extends Component {
     }
     addDiscuss = () => {
         let { validateFieldsAndScroll } = this.props.form
-        this.setState({ visible: true })
         validateFieldsAndScroll((err, data) => {
             if (!err) {
-                let { name, desc, img, from_id } = data
+                let { name, desc, from_id } = data
+                let img = this.state.img
                 let { page, pageSize } = this.state
                 // let { leavel } = JSON.parse(localStorage.getItem('user'))
                 disFirst.addFirst({ name, desc, img, from_id }).then((res) => {
-                    console.log(res)
                     if (res.err === 0) {
-                        this.setState({ visible: false })
                         this.refersh(page, pageSize)
-                    } else {
-                        message.error('权限不够，请重试')
-                        this.setState({ visible: false })
+                        message.success('添加成功')
                     }
+                    this.setState({ visible: false })
                 })
 
             } else {
-                console.log(err)
+                // console.log(err)
             }
         })
     }
+    //打开模态框
+    openModal=()=>{
+        this.setState({ visible: true,loading:true })
+    }
     render() {
-        let { dataSource, columns, visible,img} = this.state
+        let { dataSource, columns, visible,img,loading,page,pageSize,count} = this.state
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -134,19 +139,33 @@ class Discuss extends Component {
             <div style={{ background: '#ECECEC', padding: '30px' }}>
                 <Card title="评论管理" bordered={false} >
                     <div>
-                        <Button type='primary' size='small' onClick={this.addDiscuss}>新增</Button>
+                        <Button type='primary' size='small' onClick={this.openModal}>新增</Button>
                         {/* <Button type='primary' size='small' style={{margin:'0 0 15px 15px'}}>导出</Button> */}
                     </div>
-                    <Table columns={columns}
+                    <Spin tip="Loading..." spinning={loading}>
+                        <Table columns={columns}
                         dataSource={dataSource}
+                        pagination={false}
                         rowKey='_id'
-                    >
-                    </Table>
+                        >
+                        </Table>
+                    </Spin>
+                    <Pagination showQuickJumper current={page}  total={count}
+                    pageSize={pageSize}
+                    style={{marginTop:'20px'}}
+                    onChange={(page,pageSize)=>{
+                        // console.log(page)
+                        //只要页码数发生改变就会触发          
+                        this.setState({page,loading:true},()=>{
+                        this.refersh(page,pageSize)
+                        })   
+                    }}
+                    />
                     <Modal
                         title='新建'
                         visible={visible}
                         onCancel={() => {
-                            this.setState({ visible: false })
+                            this.setState({ visible: false,loading:false })
                         }}
                         onOk={this.addDiscuss}
                     >

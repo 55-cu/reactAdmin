@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin,} from 'antd'
+import {Icon,Button,Divider,Popconfirm,Modal,message,Form,Input,Table,Pagination,Spin} from 'antd'
 import XLSX from "xlsx"
 
 import style from './second.module.less'
@@ -225,7 +225,7 @@ class First extends Component {
     if(!file){ return message.error('请先选择一张图片')}
     // 图片的验证
     let {size,type} = file 
-    console.log(type)
+    // console.log(type)
     let types = ['jpg',"jpeg",'gif','png']
     if(size>1000000){ return message.warning('图片超过1m')}
     if(types.indexOf(type.split('/')[1])===-1){ return message.warning('只允许jpg.jpeg,gif,png四种类型')}
