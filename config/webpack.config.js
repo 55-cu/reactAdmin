@@ -24,6 +24,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const CompressionPlugin = require('compression-webpack-plugin') //gzip 压缩的插件
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -51,6 +52,7 @@ const lessModuleRegex = /\.module\.(less)$/;
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
+  
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
 
@@ -127,6 +129,7 @@ module.exports = function(webpackEnv) {
   };
 
   return {
+    
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -304,6 +307,7 @@ module.exports = function(webpackEnv) {
         '@api':path.join(__dirname,'../src/api')
       },
       plugins: [
+        
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
         // guards against forgotten dependencies and such.
         PnpWebpackPlugin,
@@ -513,6 +517,22 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      new CompressionPlugin(
+        Object.assign(
+          {},
+          isEnvProduction
+          ?{
+            algorithm: 'gzip',
+            test: new RegExp(
+              '\\.(js|css)$' // 压缩 js 与 css
+          ),
+            threshold: 10240,
+            minRatio: 0.8
+          }
+          : undefined
+        )),
+
+
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
