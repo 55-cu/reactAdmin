@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Button, Divider, Popconfirm, Modal, message, Form, Input, Table, Pagination, Spin, Select } from 'antd'
+import { Icon, Button, Divider, Popconfirm, Modal, message, Form, Input, Table, Pagination, Spin, Select,Avatar } from 'antd'
 import XLSX from "xlsx"
 import style from './second.module.less'
 import commentsApi from '../../../api/comments.js'
@@ -36,14 +36,14 @@ class First extends Component {
         render: (img) => {
           return (
             <LazyLoad width={120}>
-              <img src={img} style={{ width: '120px' }} alt="缩略图" />
+              <Avatar src={img} width='60' height='60' type="circle" alt="缩略图"/>
             </LazyLoad>
           )
         }
       },
       {
         title: '一级评论id',
-        dataIndex: '_id',
+        dataIndex: 'from_id',
         width: 80,
         key: "_id",
       },
@@ -128,7 +128,7 @@ class First extends Component {
     let result = await this.getDataById(_id)
     if (!result.list) { return }
     console.log(result)
-    let { name, desc, img, from_id } = result.list.result
+    let { name, desc, img, from_id } = result.list[0]
     //将数据写入表单，让模态框显示
     this.props.form.setFieldsValue({
       creator: name,
@@ -187,9 +187,7 @@ class First extends Component {
   // 获取热门话题数据
   getListData = async () => {
     let { page, pageSize } = this.state
-    console.log(commentsApi.findSecondList({ page, pageSize }))
     let { err, list } = await commentsApi.findSecondList({ page, pageSize })
-    console.log(list.result)
     let type = this.handleType(list.result)
     if (err !== 0) { return }
     this.setState({ list: list.result, count: list.allCount, loading: false,type })
@@ -198,12 +196,12 @@ class First extends Component {
   handleType=(list)=>{
     let result = []
     for (const v of list) {
-        if(!result.includes(v._id)){
-            result.push(v._id)
+        if(!result.includes(v.from_id)){
+            result.push(v.from_id)
         }
     }
     return result
-}
+  }
   //导出excel文件
   export = async () => {
     let thead = this.state.columns.map((item, index) => {
@@ -257,8 +255,9 @@ class First extends Component {
   idSearch=async ()=>{
     this.setState({loading:true})
     let {value}=this.state
-    if(value !== 'id查询'){
-        let result = await commentsApi.getData({from_id:value })
+    console.log(value)
+    if(value !== '一级评论id查询'){
+        let result = await commentsApi.getDataByFirst({from_id:value })
         console.log(result)
         let {list,err} = result
         if(!list){return}
@@ -307,18 +306,20 @@ class First extends Component {
         <div className={style.wrapper}>
           <Button type="primary" onClick={this.addSecond} >新建</Button>
           <Button type="primary" className={style.btn} onClick={this.export}>导出</Button>
-          <Select value={value} style={{ width: '40%' }}  onChange={(value)=>{
-           this.setState({value:value})
-          }}>
-              {
-                type.map((item, index) => {
-                  return (
-                    <Option value={item} key={index}>{item}</Option>
-                  )
-                })
-              }
+          <div style={{margin:'20px 0'}}>
+            <Select value={value} style={{ width: '40%' }}  onChange={(value)=>{
+            this.setState({value:value})
+            }}>
+                {
+                  type.map((item) => {
+                    return (
+                      <Option value={item} key={value}>{item}</Option>
+                    )
+                  })
+                }
             </Select>
-            <Button type="primary" icon="search" onClick={() => { this.idSearch() }} />
+            <Button type="primary" icon="search" onClick={this.idSearch} />
+          </div>
           <Spin tip="Loading..." spinning={loading}>
             <Table bordered columns={columns} dataSource={list} rowKey='_id' pagination={false} className={style.table} />
           </Spin>

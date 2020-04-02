@@ -20,6 +20,11 @@ class Comments {
   }
   //根据id获取数据
   getData(payload){
+    let url='/chick/admin/discuss/getSecond '
+    return axios.post(url,payload)
+  }
+  //getDataByFirst根据一级评论id获取所有二级评论
+  getDataByFirst(payload){
     let url='/chick/admin/discuss/infoByFirst '
     return axios.post(url,payload)
   }

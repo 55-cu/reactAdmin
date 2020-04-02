@@ -51,7 +51,7 @@ class Discuss extends Component {
                                     message.error('权限不够')
                                 }}
                             >
-                                <Button type='primary' size='small' style={{ margin: '0 10px' }}>编辑</Button>
+                                <Button type='primary' size='small'>编辑</Button>
                             </Popconfirm>
 
                         </div>

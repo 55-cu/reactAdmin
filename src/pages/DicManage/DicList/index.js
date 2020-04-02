@@ -13,19 +13,30 @@ class DicList extends Component {
    count:0,
    kw:'',
    columns:[
-     {title:'_id', dataIndex:'_id',key:'_id', width :220},
      {title:'名称', dataIndex:'name',key:'name' },
-     {title:'话题', dataIndex:'topic',key:'topic' },
      {title:'图片', dataIndex:'img',key:'img',render:(img)=>{
       return(<img width ='80' height='80'src={img} alt="缩略图"/>)
      } },
      {title:'描述', dataIndex:'desc',key:'desc' },
+     {title:'话题', dataIndex:'topic',key:'topic' },
+     {title:'创建者', dataIndex:'creator',key:'creator' },
      {title:'评论数', dataIndex:'comments',key:'comments', defaultSortOrder: 'descend',
      sorter: (a, b) => a.comments - b.comments, },
      {title:'点赞数', dataIndex:'likes',key:'likes' ,defaultSortOrder: 'descend',
      sorter: (a, b) => a.likes - b.likes,},
-     {title:'创建者', dataIndex:'creator',key:'creator' },
-     {title:'操作', key:'action',render:(record)=>{
+     {
+      title: '时间',
+      dataIndex: 'ctime',
+      width: 150,
+      key: "ctime",
+      render: (ctime) => {
+        return (
+          <div>
+            {ctime.slice(0, 19).split('T').join(' ')}
+          </div>
+        )
+      }
+    },     {title:'操作', key:'action',render:(record)=>{
       return(
         <div>
           <Popconfirm title='你确定要删除该商品嘛?'
@@ -82,7 +93,7 @@ class DicList extends Component {
     if(err===-1){
         return message.error(msg)
     }
-    else if(list==''){
+    else if(list===''){
     message.error('暂无数据')
     this.setState({list,count:allCount})
     }
@@ -93,6 +104,7 @@ class DicList extends Component {
   // 获取表头数据
   let thead = this.state.columns.map((item)=>{ return item.title})
   // 获取要导出的数据
+  thead.unshift('id')
   let {list} = await dicManage.findByPage(1,10000)
   let data = list.map((item)=>{
     let arr = [] 
