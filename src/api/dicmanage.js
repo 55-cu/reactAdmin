@@ -8,9 +8,14 @@ class Dicmanage {
     let url = '/chick/admin/dict/topicinfo'
     return axios.post(url, { topic, page, pageSize })
   }
-  findByPage(page, pageSize) {
-    let url = '/chick/admin/dict/infopage'
-    return axios.post(url, { page, pageSize })
+ 
+  findById(_id){
+    let url='/chick/admin/dict/info'
+    return axios.post(url,{_id})
+  }
+  findByPage(page,pageSize){
+    let url='/chick/admin/dict/infopage'
+    return axios.post(url,{page,pageSize})
   }
   dicAdd(payload) {
     let url = '/chick/admin/dict/add'

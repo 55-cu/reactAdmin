@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {Card,message,Button,Input, Form} from 'antd'
 import style from './index.module.less'
 import dicManage from '../../../api/dicmanage'
-
-
 class DicUpdate extends Component {
  state={
    _id:'',
@@ -15,7 +13,6 @@ class DicUpdate extends Component {
    "comments": 0,
    "likes": 0,
  }
- 
  //修改词典数据
  DicUpdate= async ()=>{
     let {err} = await dicManage.dicUpdate(this.state)
@@ -60,7 +57,7 @@ class DicUpdate extends Component {
   render(){
    let { desc, topic, name, img,creator,comments,likes} = this.state
     return (
-      <div className={style.box}>
+         <div className={style.box}>
         <Card title='添加词典' className={style.card}>
           <Form className={style.content}>
            名称：<Input type='text'   className={style.input} value={name} onChange={(e)=>{
@@ -87,7 +84,6 @@ class DicUpdate extends Component {
                 <Button onClick={this.DicUpdate}>修改</Button></Form>
         </Card>
       </div>)
-    
   }
 }
 

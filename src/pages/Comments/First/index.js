@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
-import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination } from 'antd'
+import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spin,Pagination,Avatar} from 'antd'
 import disFirst from '../../../api/dicFirst'
 import dicmanage from '../../../api/dicmanage'
 import LazyLoad from 'react-lazyload';
@@ -26,7 +26,7 @@ class Discuss extends Component {
             { title: '头像', dataIndex: 'img', key: 'img',render:(img)=>{
                 return (
                     <LazyLoad width={120}>
-                        <img src={img} style={{width:'120px'}} alt="缩略图"/>
+                        <Avatar src={img} width='60' height='60' type="circle" alt="缩略图"/>
                     </LazyLoad>
                 )
             } },
@@ -135,6 +135,7 @@ class Discuss extends Component {
         let {selValue}=this.state
         if(selValue !== '请选择词条id'){
             let result = await disFirst.getDataById({from_id:selValue})
+            console.log(result)
             let {list,err} = result
             if(!list){return}
             if(err === 0){
@@ -186,6 +187,7 @@ class Discuss extends Component {
     openModal=()=>{
         this.setState({ visible: true,loading:true ,methods:'新建'})
     }
+   
     render() {
         let { dataSource, columns, visible,img,loading,page,pageSize,count,type,selValue,methods} = this.state
         const formItemLayout = {
@@ -225,6 +227,7 @@ class Discuss extends Component {
                         dataSource={dataSource}
                         pagination={false}
                         rowKey='_id'
+                        bordered
                         >
                         </Table>
                     </Spin>

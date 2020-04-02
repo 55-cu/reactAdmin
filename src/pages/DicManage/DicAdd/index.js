@@ -25,7 +25,7 @@ class DicAdd extends Component {
          } else {
             // 用户名和密码正确
             dicManage.dicAdd(this.state).then(res => {
-               // console.log('res', res)
+               //console.log('res', res)
                if (res.err === -1) {
                   return message.error(res.msg)
                } else {
@@ -62,7 +62,7 @@ class DicAdd extends Component {
    render() {
       //console.log( this.props.form)
       let { getFieldDecorator } = this.props.form;
-      let { img, comments, likes } = this.state
+      let {  img,  comments, likes } = this.state
       return (
          <div className={style.box}>
             <Card title='添加词典' className={style.card}>
