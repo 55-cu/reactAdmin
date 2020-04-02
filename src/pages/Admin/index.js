@@ -37,7 +37,7 @@ class Admin extends Component {
     if (localStorage.getItem('user')) {
       let { page, pageSize } = this.state
       userManage.userQuery({ page, pageSize }).then((res) => {
-        console.log(res)
+        // console.log(res)
         let { _id } = JSON.parse(localStorage.getItem('user'))
         res.list.forEach((item) => {
           let id = item._id
