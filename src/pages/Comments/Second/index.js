@@ -124,6 +124,7 @@ class First extends Component {
   //编辑
   updateSecond=async (_id)=>{
     let result =await this.getDataById(_id)
+    console.log('result',result)
     if(!result.list){return}
     let {name,desc,img,from_id} = result.list[0]
     //将数据写入表单，让模态框显示
