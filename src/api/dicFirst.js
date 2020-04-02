@@ -17,6 +17,11 @@ class dicFirst {
         let url='/chick/admin/discuss/infoByDict'
         return axios.post(url,payload)
     }
+    //根据词条id查询
+    updateOne(payload){
+        let url='/chick/admin/discuss/updateOne'
+        return axios.post(url,payload)
+    }
 }
 
 export default new dicFirst()

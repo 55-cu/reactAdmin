@@ -127,7 +127,6 @@ class First extends Component {
   updateSecond = async (_id) => {
     let result = await this.getDataById(_id)
     if (!result.list) { return }
-    console.log(result)
     let { name, desc, img, from_id } = result.list[0]
     //将数据写入表单，让模态框显示
     this.props.form.setFieldsValue({
@@ -255,10 +254,10 @@ class First extends Component {
   idSearch=async ()=>{
     this.setState({loading:true})
     let {value}=this.state
-    console.log(value)
+    // console.log(value)
     if(value !== '一级评论id查询'){
         let result = await commentsApi.getDataByFirst({from_id:value })
-        console.log(result)
+        // console.log(result)
         let {list,err} = result
         if(!list){return}
         if(err === 0){

@@ -4,6 +4,7 @@ import { Select,Card, Table, Button, Popconfirm, message, Modal, Form, Input,Spi
 import disFirst from '../../../api/dicFirst'
 import dicmanage from '../../../api/dicmanage'
 import LazyLoad from 'react-lazyload';
+import commentsApi from '../../../api/comments.js'
 const { Option } = Select;
 class Discuss extends Component {
     state = {
@@ -16,6 +17,8 @@ class Discuss extends Component {
         count:1,
         type:[],
         selValue:'请选择词条id',
+        methods:'',
+        id:'',
         columns: [
             { title: '主词条id', dataIndex: 'from_id', key: 'from_id' },
             { title: '评论者', dataIndex: 'name', key: 'name' },
@@ -48,7 +51,8 @@ class Discuss extends Component {
                                     message.error('取消修改')
                                 }}
                                 onConfirm={() => {
-                                    message.error('权限不够')
+                                    let _id = recode._id
+                                    this.updateFirst(_id)
                                 }}
                             >
                                 <Button type='primary' size='small'>编辑</Button>
@@ -71,7 +75,25 @@ class Discuss extends Component {
             this.setState({loading:false})
         })
     }
-
+    //编辑
+    updateFirst=async (_id)=>{
+        let result =await this.getDataById(_id)
+        if(!result.list){return}
+        let {name,desc,img,from_id} = result.list[0]
+        //将数据写入表单，让模态框显示
+        this.props.form.setFieldsValue({
+        name,
+        desc,
+        img,
+        from_id,
+        });
+        this.setState({visible:true,id:_id,methods:'编辑',img})
+    }
+    //根据ID获取当前话题
+    getDataById=async (_id)=>{
+        let result = await commentsApi.getData1({_id})
+        return result
+    }
     upload=async ()=>{
         let file = this.refs.img.files[0]
         if(!file){return message.error('请先选择一张图片')}
@@ -113,7 +135,7 @@ class Discuss extends Component {
         let {selValue}=this.state
         if(selValue !== '请选择词条id'){
             let result = await disFirst.getDataById({from_id:selValue})
-            console.log(result)
+            // console.log(result)
             let {list,err} = result
             if(!list){return}
             if(err === 0){
@@ -131,21 +153,32 @@ class Discuss extends Component {
         this.refersh(page, pageSize)
     }
     addDiscuss = () => {
+        this.setState({loading:true})
         let { validateFieldsAndScroll } = this.props.form
+        let id = this.state.id
         validateFieldsAndScroll((err, data) => {
             if (!err) {
                 let { name, desc, from_id } = data
                 let img = this.state.img
                 let { page, pageSize } = this.state
                 // let { leavel } = JSON.parse(localStorage.getItem('user'))
-                disFirst.addFirst({ name, desc, img, from_id }).then((res) => {
-                    if (res.err === 0) {
-                        this.refersh(page, pageSize)
-                        message.success('添加成功')
-                    }
-                    this.setState({ visible: false })
-                })
-
+                if(this.state.methods==='新建'){
+                    disFirst.addFirst({ name, desc, img, from_id }).then((res) => {
+                        if (res.err === 0) {
+                            this.refersh(page, pageSize)
+                            message.success('添加成功')
+                        }
+                        this.setState({ visible: false })
+                    })
+                }else{
+                    disFirst.updateOne({_id:id,name,desc,img,from_id}).then((res) => {
+                        if (res.err === 0) {
+                            this.refersh(page, pageSize)
+                            message.success('修改成功')
+                        }
+                        this.setState({ visible: false,loading:false })
+                    })
+                }
             } else {
                 // console.log(err)
             }
@@ -153,11 +186,11 @@ class Discuss extends Component {
     }
     //打开模态框
     openModal=()=>{
-        this.setState({ visible: true,loading:true })
+        this.setState({ visible: true,loading:true ,methods:'新建'})
     }
    
     render() {
-        let { dataSource, columns, visible,img,loading,page,pageSize,count,type,selValue} = this.state
+        let { dataSource, columns, visible,img,loading,page,pageSize,count,type,selValue,methods} = this.state
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -211,7 +244,7 @@ class Discuss extends Component {
                     }}
                     />
                     <Modal
-                        title='新建'
+                        title={methods}
                         visible={visible}
                         onCancel={() => {
                             this.setState({ visible: false,loading:false })
